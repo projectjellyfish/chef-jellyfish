@@ -1,5 +1,8 @@
 chef-jellyfish Cookbook
 =======================
+
+[![Build Status](https://travis-ci.org/projectjellyfish/chef-jellyfish.svg?branch=master)](https://travis-ci.org/projectjellyfish/chef-jellyfish)
+
 Allows for the install of Project Jellyfish
 
 #### Requirements
