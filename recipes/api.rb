@@ -112,8 +112,8 @@ bash "unzip api-2.0.0.zip" do
 end
 
 log "Application.yml configuration file"
-template "/opt/api-2.0.0/config/application.yml" do
-  source "application.yml.erb"
+template "/opt/api-2.0.0/.env" do
+  source "dotEnv.erb"
   mode '0644'
   owner 'root'
   group 'root'
