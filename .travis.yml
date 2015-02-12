@@ -2,7 +2,6 @@ language: ruby
 gemfile: test/support/Gemfile
 sudo: false
 rvm:
-- 1.9.2
 - 1.9.3
 script: bundle exec rake foodcritic
 notifications:
