@@ -6,12 +6,12 @@
 #
 # All rights reserved - Do Not Redistribute
 #
-if node["jellyfish"]["core"]["enabled"] == "true"
+if node["jellyfish"]["api"]["enabled"] == "true"
  log "jelly core enabled"
- include_recipe "jellyfish::core"
+ include_recipe "chef-jellyfish::api"
 end
 
 if node["jellyfish"]["ux"]["enabled"] == "true"
  log "jellyfish ux enabled"
- include_recipe "jellyfish::ux"
+ include_recipe "chef-jellyfish::ux"
 end

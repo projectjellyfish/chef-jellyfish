@@ -1,5 +1,5 @@
-j
-# Cookbook Name:: jellyfish
+#
+# Cookbook Name:: chef-jellyfish
 # Recipe:: ux
 #
 # Copyright 2015, Booz Allen Hamilton

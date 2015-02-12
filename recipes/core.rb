@@ -1,6 +1,6 @@
 #
-# Cookbook Name:: jellyfish
-# Recipe:: core
+# Cookbook Name:: chef-jellyfish
+# Recipe:: api
 #
 # Copyright 2015, Booz Allen Hamilton
 #
