@@ -1,5 +1,5 @@
 #
-# Cookbook Name:: jellyfish
+# Cookbook Name:: chef-jellyfish
 # Recipe:: default
 #
 # Copyright 2015, Booz Allen Hamilton
@@ -7,7 +7,7 @@
 # All rights reserved - Do Not Redistribute
 #
 if node["jellyfish"]["api"]["enabled"] == "true"
- log "jelly core enabled"
+ log "jelly api enabled"
  include_recipe "chef-jellyfish::api"
 end
 
