@@ -1,10 +1,13 @@
-name             'jellyfish'
+name             'chef-jellyfish'
 maintainer       'Booz Allen Hamilton'
-maintainer_email 'projectjellyfish@bah.com'
-license          'All rights reserved'
-description      'Installs/Configures jellyfish'
+maintainer_email 'jellyfishopensource@bah.com'
+license          'Apache 2.0'
+description      'Installs/Configures Jellyfish'
 long_description IO.read(File.join(File.dirname(__FILE__), 'README.md'))
-version          '0.1.0'
+version          '1.0.0'
+supports         'rhel'
+supports         'centos'
+
 
 depends 'rbenv'
 depends 'nginx'
