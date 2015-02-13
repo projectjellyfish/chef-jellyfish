@@ -97,22 +97,22 @@ bash "sed requiretty sudoers" do
 end
 
 log "Checkout the latest code"
-remote_file "/opt/api-2.0.0.zip" do
-  source "https://github.com/projectjellyfish/api/archive/2.0.0.zip"
+remote_file "/opt/api-master.zip" do
+  source "https://github.com/projectjellyfish/api/archive/master.zip"
   mode '0644'
 end
 
-bash "unzip api-2.0.0.zip" do
+bash "unzip api-master.zip" do
   cwd "/opt"
   user "root"
   code <<-EOH
-  unzip api-2.0.0.zip
+  unzip api-master.zip
   EOH
-  creates "/opt/api-2.0.0"
+  creates "/opt/api-master"
 end
 
 log "Application.yml configuration file"
-template "/opt/api-2.0.0/.env" do
+template "/opt/api-master/.env" do
   source "dotEnv.erb"
   mode '0644'
   owner 'root'
@@ -124,9 +124,9 @@ rbenv_gem "bundler" do
   ruby_version "2.1.5"
 end
 
-log "bundle api-2.0.0"
-bash "bundle api-2.0.0" do
-  cwd "/opt/api-2.0.0"
+log "bundle api-master"
+bash "bundle api-master" do
+  cwd "/opt/api-master"
   user "root"
   code <<-EOH
   source /etc/profile.d/rbenv.sh && bundle
@@ -136,7 +136,7 @@ end
 
 log "Populate the database"
 bash "postgresql 9.3 initdb " do
-  cwd "/opt/api-2.0.0"
+  cwd "/opt/api-master"
   user "root"
   code <<-EOH
   service postgresql-9.3 initdb
@@ -173,7 +173,7 @@ end
 
 log "running rake tasks"
 bash "rake tasks" do
-  cwd "/opt/api-2.0.0"
+  cwd "/opt/api-master"
   user "root"
   code <<-EOH
   source /etc/profile.d/rbenv.sh
@@ -185,10 +185,10 @@ end
 
 log "starting rails"
 bash "rails s" do
-  cwd "/opt/api-2.0.0"
+  cwd "/opt/api-master"
   user "root"
   code <<-EOH
-  source /etc/profile.d/rbenv.sh && /opt/api-2.0.0/bin/rails s -d &
+  source /etc/profile.d/rbenv.sh && /opt/api-master/bin/rails s -d &
   touch /tmp/rails_started
   EOH
   creates "/tmp/rails_started"
