@@ -36,33 +36,33 @@ bash "Install Node" do
 end
 
 log "Checkout and Unzip the latest UX Code"
-remote_file "/opt/ux-2.0.0.zip" do
-  source "https://github.com/projectjellyfish/ux/archive/2.0.0.zip"
+remote_file "/opt/ux-master.zip" do
+  source "https://github.com/projectjellyfish/ux/archive/master.zip"
   mode '0644'
 end
 
-bash "unzip ux-2.0.0.zip" do
+bash "unzip ux-master.zip" do
   cwd "/opt"
   user "root"
   code <<-EOH
-  unzip ux-2.0.0.zip
+  unzip ux-master.zip
   EOH
-  creates "/opt/ux-2.0.0"
+  creates "/opt/ux-master"
 end
 
 log "Run gulp and Install into Production"
 bash "Install Production" do
   user "root"
-  cwd "/opt/ux-2.0.0"
+  cwd "/opt/ux-master"
   code <<-EOH
   /usr/bin/npm install
   /usr/bin/gulp production
   EOH
-  creates "/opt/ux-2.0.0/node_modules/winston"
+  creates "/opt/ux-master/node_modules/winston"
 end
 
 log "Set ENV settings"
-template "/opt/ux-2.0.0/public/appConfig.js" do
+template "/opt/ux-master/public/appConfig.js" do
   source "appConfig.js.erb"
   mode '0644'
   owner 'root'
@@ -74,7 +74,7 @@ log "Install forever"
 log "run node"
 bash "Install forever" do
   user "root"
-  cwd "/opt/ux-2.0.0"
+  cwd "/opt/ux-master"
   code <<-EOH
   /usr/bin/npm install forever  -g &
   EOH
@@ -83,7 +83,7 @@ end
 
 bash "run node" do
   user "root"
-  cwd "/opt/ux-2.0.0"
+  cwd "/opt/ux-master"
   code <<-EOH
   /usr/bin/forever start app.js & 
   touch /tmp/node_is_running
