@@ -17,10 +17,10 @@ Tested on RHEL 6.5 and CentOS 6.5. Should work on any Red Hat family distributio
 Attributes
 ----------
 ######Attributes specifically for Project Jellyfish
-default["jellyfish"]["api"]["enabled"] - Enable the install of Jellyfish API
-default["jellyfish"]["ux"]["enabled"] - Enable the install of Jellyfish UX
-default["jellyfish"]["api"]["cors_allow_origin"] - Comma seperated list of host that you want to be able to access Jellyfish API
-default["jellyfish"]["ux"]["app_config_js"] - Single FQDN: https://some-host.company.com:port (if port is different that the standard port)
+- `default["jellyfish"]["api"]["enabled"]` - Enable the install of Jellyfish API
+- `default["jellyfish"]["ux"]["enabled"]` - Enable the install of Jellyfish UX
+- `default["jellyfish"]["api"]["cors_allow_origin"]` - Comma seperated list of host that you want to be able to access Jellyfish API
+- `default["jellyfish"]["ux"]["app_config_js"]` - Single FQDN: https://some-host.company.com:port (if port is different that the standard port)
 
 Usage
 -----
