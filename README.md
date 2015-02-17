@@ -77,9 +77,9 @@ This section details "quick deployment" steps.
 6. Download and extract the cookbook:
 
           yum install -y wget
-          wget https://github.com/projectjellyfish/chef-jellyfish/archive/master.zip
-          tar xvfz master.tar.gz 
-          rm -rf master.tar.gz 
+          wget https://github.com/projectjellyfish/chef-jellyfish/archive/master.tar.gz
+          tar xvfz master
+          rm master
           mv chef-jellyfish-master/ chef-jellyfish
     
 7. Run Chef-solo:
