@@ -85,7 +85,7 @@ This section details "quick deployment" steps.
 7. Run Chef-solo:
 
           cd /tmp/chef
-          chef-solo -c solo.rb -j manageiq.json
+          chef-solo -c solo.rb -j chef-jellyfish.json
 
 License & Authors
 -----------------
