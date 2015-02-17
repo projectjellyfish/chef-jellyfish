@@ -43,25 +43,27 @@ This section details "quick deployment" steps.
           mkdir -p /tmp/chef/cookbooks
           cd /tmp/chef/
 
-3. Create a solo.rb file
+3. Create a solo.rb file, run the commands below
 
 
-          vi /tmp/chef/solo.rb
-         
-               file_cache_path "/tmp/chef/"
-               cookbook_path "/tmp/chef/cookbooks"
 
-4. Create a manageiq.json file, this will be the attributes file and contains the run_list
+          cat <<EOF > /tmp/chef/solo.rb
+                    file_cache_path "/tmp/chef"
+                    cookbook_path "/tmp/chef/cookbooks"
+          EOF
+ 
 
 
-          vi /tmp/chef/chef-jellyfish.json
-        
-                {
-                  "run_list": [
-                  "recipe[chef-jellyfish]"
-                 ]
-                }
+4. Create a manageiq.json file, this will be the attributes file and contains the run_list, run the commands below
 
+
+          cat <<EOF > /tmp/chef/chef-jellyfish.json
+          {
+                    "run_list": [
+                    "recipe[chef-jellyfish]"
+                    ]
+          }
+          EOF
 
 4. Install dependencies:
 
