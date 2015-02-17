@@ -109,6 +109,9 @@ This section details "quick deployment" steps.
         tar xvfz rsyslog-*.tar.gz
         rm -f rsyslog-*.tar.gz
         
+        knife cookbook site download git
+        tar xvfz git-*.tar.gz
+        rm -f git-*.tar.gz
         
 6. Download and extract the cookbook:
 
