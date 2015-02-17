@@ -104,6 +104,12 @@ This section details "quick deployment" steps.
         knife cookbook site download yum
         tar xvfz yum-*.tar.gz
         rm -f yum-*.tar.gz
+        
+        knife cookbook site download rsyslog
+        tar xvfz rsyslog-*.tar.gz
+        rm -f rsyslog-*.tar.gz
+        
+        
 6. Download and extract the cookbook:
 
           yum install -y wget
