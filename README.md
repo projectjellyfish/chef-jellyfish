@@ -113,6 +113,10 @@ This section details "quick deployment" steps.
         tar xvfz git-*.tar.gz
         rm -f git-*.tar.gz
         
+        knife cookbook site download dmg
+        tar xvfz dmg-*.tar.gz
+        rm -f dmg-*.tar.gz
+        
 6. Download and extract the cookbook:
 
           yum install -y wget
