@@ -76,7 +76,34 @@ This section details "quick deployment" steps.
         knife cookbook site download nginx
         tar xvfz nginx-*.tar.gz
         rm -f nginx-*.tar.gz     
+        
+        knife cookbook site download apt
+        tar xvfz apt-*.tar.gz
+        rm -f apt-*.tar.gz
+        
+        knife cookbook site download yum-epel
+        tar xvfz yum-epel-*.tar.gz
+        rm -f yum-epel-*.tar.gz
+        
+        knife cookbook site download runit
+        tar xvfz runit-*.tar.gz
+        rm -f runit-*.tar.gz
+        
+        knife cookbook site download ohai
+        tar xvfz ohai-*.tar.gz
+        rm -f ohai-*.tar.gz
+        
+        knife cookbook site download build-essential
+        tar xvfz build-essential-*.tar.gz
+        rm -f build-essential-*.tar.gz
        
+        knife cookbook site download bluepill
+        tar xvfz bluepill-*.tar.gz
+        rm -f bluepill-*.tar.gz
+        
+        knife cookbook site download yum
+        tar xvfz yum-*.tar.gz
+        rm -f yum-*.tar.gz
 6. Download and extract the cookbook:
 
           yum install -y wget
