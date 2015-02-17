@@ -11,8 +11,8 @@ Requirements
 Tested on RHEL 6.5 and CentOS 6.5. Should work on any Red Hat family distribution.
 
 ###Cookbooks
--rbenv
-
+ - rbenv
+ - nginx
 
 Attributes
 ----------
@@ -71,8 +71,11 @@ This section details "quick deployment" steps.
         
         knife cookbook site download rbenv
         tar xvfz rbenv-*.tar.gz
-        rm -f rbenv-*.tar.gz        
+        rm -f rbenv-*.tar.gz    
         
+        knife cookbook site download nginx
+        tar xvfz nginx-*.tar.gz
+        rm -f nginx-*.tar.gz     
        
 6. Download and extract the cookbook:
 
