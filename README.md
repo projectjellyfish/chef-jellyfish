@@ -117,6 +117,11 @@ This section details "quick deployment" steps.
         tar xvfz dmg-*.tar.gz
         rm -f dmg-*.tar.gz
         
+        knife cookbook site download windows
+        tar xvfz windows-*.tar.gz
+        rm -f windows-*.tar.gz
+        
+        
 6. Download and extract the cookbook:
 
           yum install -y wget
