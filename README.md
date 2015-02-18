@@ -11,8 +11,21 @@ Requirements
 Tested on RHEL 6.5 and CentOS 6.5. Should work on any Red Hat family distribution.
 
 ###Cookbooks
- - rbenv
+ - apt
+ - bluepill
+ - build-essential
+ - chef_handler
+ - dmg
+ - git
  - nginx
+ - ohai
+ - rbenv
+ - rsyslog
+ - runit
+ - windows
+ - yum
+ - yum-epel
+
 
 Attributes
 ----------
