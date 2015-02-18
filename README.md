@@ -121,6 +121,9 @@ This section details "quick deployment" steps.
         tar xvfz windows-*.tar.gz
         rm -f windows-*.tar.gz
         
+        knife cookbook site download chef_handler
+        tar xvfz chef_handler-*.tar.gz
+        rm -f chef_handler-*.tar.gz
         
 6. Download and extract the cookbook:
 
