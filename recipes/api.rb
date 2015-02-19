@@ -50,7 +50,7 @@ end
 
 log 'Install PostgreSQL'
 remote_file '/opt/pgdg-redhat93-9.3-1.noarch.rpm' do
-  source 'http://yum.postgresql.org/9.3/redhat/rhel-6-x86_64/pgdg-redhat93-9.3-1.noarch.rpm'
+  source node['pgdg_rpm']
   mode '0644'
 end
 
@@ -70,7 +70,8 @@ bash 'gem instal pg' do
   code <<-EOH
   source /etc/profile.d/rbenv.sh
   rbenv global 2.1.5
-  /opt/rbenv/versions/2.1.5/bin/gem install pg -v '0.17.1' -- --with-pg-config=/usr/pgsql-9.3/bin/pg_config
+  /opt/rbenv/versions/2.1.5/bin/gem install pg -v '0.17.1' -- \
+  --with-pg-config=/usr/pgsql-9.3/bin/pg_config
   EOH
   creates '/opt/rbenv/versions/2.1.5/lib/ruby/gems/2.1.0/gems/pg-0.18.1'
 end
@@ -92,7 +93,7 @@ bash 'sed requiretty sudoers' do
   code <<-EOH
   sed -i 's/^.*requiretty/#Defaults requiretty/' /etc/sudoers
   EOH
-  not_if ('grep requiretty /etc/sudoers|grep ^#Defaults')
+  not_if('grep requiretty /etc/sudoers|grep ^#Defaults')
 end
 
 log 'Checkout the latest code'
