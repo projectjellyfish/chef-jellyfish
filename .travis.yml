@@ -3,7 +3,9 @@ gemfile: test/support/Gemfile
 sudo: false
 rvm:
 - 1.9.3
-script: bundle exec rake foodcritic
+script: 
+- bundle exec rake foodcritic
+- bundle exec rubocop
 notifications:
   slack:
     secure: HcOEwSwQZWIrjcyqqWyvSOj5PcZ5P5dU2FNbYQN89ZAaqDn2o0Q7MLa4szY/wbBbuqPklbLIW5fq7WtFH4gT+eFN0F5z/dniX0PBDlKES10nQdpGdWlFFymT+KgaptBQb/Cwc4NeUtVFCMGTIbdeMXPQaReMEAuxNJLUxYHiudI=
