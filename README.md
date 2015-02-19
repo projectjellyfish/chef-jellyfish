@@ -67,7 +67,7 @@ This section details "quick deployment" steps.
  
 
 
-4. Create a manageiq.json file, this will be the attributes file and contains the run_list, run the commands below
+4. Create a chef-jellyfish.json file, this will be the attributes file and contains the run_list, run the commands below
 
 
           cat <<EOF > /tmp/chef/chef-jellyfish.json
