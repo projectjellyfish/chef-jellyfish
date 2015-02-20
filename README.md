@@ -142,8 +142,8 @@ This section details "quick deployment" steps.
 
           yum install -y wget
           wget https://github.com/projectjellyfish/chef-jellyfish/archive/master.tar.gz
-          tar xvfz master
-          rm master
+          tar xvfz master.tar.gz
+          rm master.tar.gz
           mv chef-jellyfish-master/ chef-jellyfish
     
 7. Run Chef-solo:
