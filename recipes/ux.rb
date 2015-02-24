@@ -7,31 +7,32 @@
 # All rights reserved - Do Not Redistribute
 #
 
-log "Create jellyfish user"
-user "jellyfish" do
-  comment "jellyfish user"
-  shell "/bin/bash"
+log 'Create jellyfish user'
+
+user 'jellyfish' do
+  comment 'jellyfish user'
+  shell '/bin/bash'
 end
 
-log "Install Pre-Requisites"
-yum_package "git"
-yum_package "gcc-c++"
-yum_package "make"
-yum_package "ruby"
-yum_package "rubygems"
-yum_package "unzip"
-gem_package "sass"
+log 'Install Pre-Requisites'
+yum_package 'git'
+yum_package 'gcc-c++'
+yum_package 'make'
+yum_package 'ruby'
+yum_package 'rubygems'
+yum_package 'unzip'
+gem_package 'sass'
 
-log "Install node.js and dependencies"
-bash "Install Node" do
-  user "root"
-  cwd "/tmp"
+log 'Install node.js and dependencies'
+bash 'Install Node' do
+  user 'root'
+  cwd '/tmp'
   code <<-EOH
   curl -sL https://rpm.nodesource.com/setup | bash -
   yum install -y nodejs
   npm install --global gulp
   EOH
-  creates "/usr/bin/gulp"
+  creates '/usr/bin/gulp'
 end
 
 log "Checkout and Unzip the latest UX Code"
@@ -72,9 +73,9 @@ bash "Install npm, forever and gulp production" do
   creates "/home/jellyfish/ux/node_modules/winston"
 end
 
-log "Set ENV settings"
-template "/home/jellyfish/ux/public/appConfig.js" do
-  source "appConfig.js.erb"
+log 'Set ENV settings'
+template '/opt/ux-master/public/appConfig.js' do
+  source 'appConfig.js.erb'
   mode '0644'
   owner 'jellyfish'
   group 'jellyfish'
@@ -93,29 +94,29 @@ bash "run node" do
   user "jellyfish"
   cwd "/home/jellyfish/ux"
   code <<-EOH
-  /usr/bin/forever start app.js & 
+  /usr/bin/forever start app.js &
   touch /tmp/node_is_running
   EOH
-  creates "/tmp/node_is_running"
+  creates '/tmp/node_is_running'
 end
 
-log "Install and run nginx"
-cookbook_file "/etc/yum.repos.d/nginx.repo" do
-  source "nginx.repo"
+log 'Install nginx'
+cookbook_file '/etc/yum.repos.d/nginx.repo' do
+  source 'nginx.repo'
   mode '0644'
   owner 'root'
   group 'root'
 end
 
-yum_package "nginx"
+yum_package 'nginx'
 
-cookbook_file "/etc/nginx/conf.d/default.conf" do
-  source "default.conf"
+cookbook_file '/etc/nginx/conf.d/default.conf' do
+  source 'default.conf'
   mode '0644'
   owner 'root'
   group 'root'
 end
 
-service "nginx" do
+service 'nginx' do
   action :start
 end

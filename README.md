@@ -11,7 +11,20 @@ Requirements
 Tested on RHEL 6.5 and CentOS 6.5. Should work on any Red Hat family distribution.
 
 ###Cookbooks
--rbenv
+ - apt
+ - bluepill
+ - build-essential
+ - chef_handler
+ - dmg
+ - git
+ - nginx
+ - ohai
+ - rbenv
+ - rsyslog
+ - runit
+ - windows
+ - yum
+ - yum-epel
 
 
 Attributes
@@ -43,25 +56,27 @@ This section details "quick deployment" steps.
           mkdir -p /tmp/chef/cookbooks
           cd /tmp/chef/
 
-3. Create a solo.rb file
+3. Create a solo.rb file, run the commands below
 
 
-          vi /tmp/chef/solo.rb
-         
-               file_cache_path "/tmp/chef/"
-               cookbook_path "/tmp/chef/cookbooks"
 
-4. Create a manageiq.json file, this will be the attributes file and contains the run_list
+          cat <<EOF > /tmp/chef/solo.rb
+                    file_cache_path "/tmp/chef"
+                    cookbook_path "/tmp/chef/cookbooks"
+          EOF
+ 
 
 
-          vi /tmp/chef/chef-jellyfish.json
-        
-                {
-                  "run_list": [
-                  "recipe[chef-jellyfish]"
-                 ]
-                }
+4. Create a chef-jellyfish.json file, this will be the attributes file and contains the run_list, run the commands below
 
+
+          cat <<EOF > /tmp/chef/chef-jellyfish.json
+          {
+                    "run_list": [
+                    "recipe[chef-jellyfish]"
+                    ]
+          }
+          EOF
 
 4. Install dependencies:
 
@@ -69,28 +84,79 @@ This section details "quick deployment" steps.
         
         knife cookbook site download rbenv
         tar xvfz rbenv-*.tar.gz
-        rm -f rbenv-*.tar.gz        
+        rm -f rbenv-*.tar.gz    
         
+        knife cookbook site download nginx
+        tar xvfz nginx-*.tar.gz
+        rm -f nginx-*.tar.gz     
+        
+        knife cookbook site download apt
+        tar xvfz apt-*.tar.gz
+        rm -f apt-*.tar.gz
+        
+        knife cookbook site download yum-epel
+        tar xvfz yum-epel-*.tar.gz
+        rm -f yum-epel-*.tar.gz
+        
+        knife cookbook site download runit
+        tar xvfz runit-*.tar.gz
+        rm -f runit-*.tar.gz
+        
+        knife cookbook site download ohai
+        tar xvfz ohai-*.tar.gz
+        rm -f ohai-*.tar.gz
+        
+        knife cookbook site download build-essential
+        tar xvfz build-essential-*.tar.gz
+        rm -f build-essential-*.tar.gz
        
+        knife cookbook site download bluepill
+        tar xvfz bluepill-*.tar.gz
+        rm -f bluepill-*.tar.gz
+        
+        knife cookbook site download yum
+        tar xvfz yum-*.tar.gz
+        rm -f yum-*.tar.gz
+        
+        knife cookbook site download rsyslog
+        tar xvfz rsyslog-*.tar.gz
+        rm -f rsyslog-*.tar.gz
+        
+        knife cookbook site download git
+        tar xvfz git-*.tar.gz
+        rm -f git-*.tar.gz
+        
+        knife cookbook site download dmg
+        tar xvfz dmg-*.tar.gz
+        rm -f dmg-*.tar.gz
+        
+        knife cookbook site download windows
+        tar xvfz windows-*.tar.gz
+        rm -f windows-*.tar.gz
+        
+        knife cookbook site download chef_handler
+        tar xvfz chef_handler-*.tar.gz
+        rm -f chef_handler-*.tar.gz
+        
 6. Download and extract the cookbook:
 
           yum install -y wget
-          wget https://github.com/projectjellyfish/chef-jellyfish/archive/master.zip
-          tar xvfz master.tar.gz 
-          rm -rf master.tar.gz 
+          wget https://github.com/projectjellyfish/chef-jellyfish/archive/master.tar.gz
+          tar xvfz master.tar.gz
+          rm master.tar.gz
           mv chef-jellyfish-master/ chef-jellyfish
     
 7. Run Chef-solo:
 
           cd /tmp/chef
-          chef-solo -c solo.rb -j manageiq.json
+          chef-solo -c solo.rb -j chef-jellyfish.json
 
 License & Authors
 -----------------
 - Author:: Thomas A. McGonagle
 
 ```text
-Copyright:: 2014, Booz Allen Hamilton
+Copyright:: 2015, Booz Allen Hamilton
 
-For more information on the license, please refer to the LICENSE.txt file in the repo
+For more information on the license, please refer to the LICENSE file in the repo
 ```
