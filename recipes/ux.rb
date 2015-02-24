@@ -36,54 +36,62 @@ bash 'Install Node' do
 end
 
 log 'Checkout and Unzip the latest UX Code'
-remote_file '/opt/ux-master.zip' do
+remote_file '/home/jellyfish/ux-master.zip' do
   source 'https://github.com/projectjellyfish/ux/archive/master.zip'
   mode '0644'
 end
 
+log 'Unzip ux-master and move it to ux'
 bash 'unzip ux-master.zip' do
-  cwd '/opt'
-  user 'root'
+  cwd '/home/jellyfish'
+  user 'jellyfish'
   code <<-EOH
   unzip ux-master.zip
   EOH
-  creates '/opt/ux-master'
+  creates '/home/jellyfish/ux-master'
+end
+
+bash 'mv ux-master ux' do
+  cwd '/home/jellyfish'
+  user 'jellyfish'
+  code <<-EOH
+   mv /home/jellyfish/ux-master /home/jellyfish/ux
+  EOH
+  creates '/home/jellyfish/ux'
 end
 
 log 'Run gulp and Install into Production'
-bash 'Install Production' do
+bash 'Install npm, forever and gulp production' do
   user 'root'
-  cwd '/opt/ux-master'
+  cwd '/home/jellyfish/ux'
   code <<-EOH
-  /usr/bin/npm install
+  /usr/bin/npm link
+  /usr/bin/npm install -g
   /usr/bin/gulp production
+  /usr/bin/npm install forever  -g
   EOH
-  creates '/opt/ux-master/node_modules/winston'
+  creates '/home/jellyfish/ux/node_modules/winston'
 end
 
 log 'Set ENV settings'
 template '/opt/ux-master/public/appConfig.js' do
   source 'appConfig.js.erb'
+  owner 'jellyfish'
+  group 'jellyfish'
   mode '0644'
-  owner 'root'
-  group 'root'
 end
 
-log 'Install forever'
-
-log 'run node'
-bash 'Install forever' do
-  user 'root'
-  cwd '/opt/ux-master'
-  code <<-EOH
-  /usr/bin/npm install forever  -g &
-  EOH
-  creates '/usr/bin/forever'
+log 'Change user permissions appVersion.js'
+file '/home/jellyfish/ux/public/appVersion.js' do
+  owner 'jellyfish'
+  group 'jellyfish'
+  mode '0644'
 end
 
+log 'Run node'
 bash 'run node' do
-  user 'root'
-  cwd '/opt/ux-master'
+  user 'jellyfish'
+  cwd '/home/jellyfish/ux'
   code <<-EOH
   /usr/bin/forever start app.js &
   touch /tmp/node_is_running
