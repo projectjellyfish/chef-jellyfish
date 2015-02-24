@@ -13,14 +13,6 @@ user "jellyfish" do
   shell "/bin/bash"
 end
 
-log "Create jellyfish sudoers file"
-file "/etc/sudoers.d/jellyfish" do
-  owner 'root'
-  group 'root'
-  mode '0440'
-  content "%jellyfish ALL=(ALL) NOPASSWD: ALL"
-end
-
 log "Install Pre-Requisites"
 yum_package "git"
 yum_package "gcc-c++"
@@ -87,6 +79,14 @@ template "/home/jellyfish/ux/public/appConfig.js" do
   owner 'jellyfish'
   group 'jellyfish'
 end
+
+log "Change user permissions appVersion.js"
+file "/home/jellyfish/ux/public/appVersion.js" do
+  owner 'jellyfish'
+  group 'jellyfish'
+  mode '0644'
+end
+
 
 log "Run node"
 bash "run node" do
