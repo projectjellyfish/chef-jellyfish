@@ -93,7 +93,7 @@ bash "run node" do
   user "jellyfish"
   cwd "/home/jellyfish/ux"
   code <<-EOH
-  sudo /usr/bin/forever start app.js & 
+  /usr/bin/forever start app.js & 
   touch /tmp/node_is_running
   EOH
   creates "/tmp/node_is_running"
