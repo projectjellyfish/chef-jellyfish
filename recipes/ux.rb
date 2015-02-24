@@ -44,7 +44,7 @@ end
 log 'Unzip ux-master and move it to ux'
 bash 'unzip ux-master.zip' do
   cwd '/home/jellyfish'
-  user "jellyfish"
+  user 'jellyfish'
   code <<-EOH
   unzip ux-master.zip
   EOH
@@ -66,9 +66,9 @@ bash 'Install npm, forever and gulp production' do
   cwd '/home/jellyfish/ux'
   code <<-EOH
   /usr/bin/npm link
-  /usr/bin/npm install -g 
+  /usr/bin/npm install -g
   /usr/bin/gulp production
-  /usr/bin/npm install forever  -g 
+  /usr/bin/npm install forever  -g
   EOH
   creates '/home/jellyfish/ux/node_modules/winston'
 end
@@ -87,7 +87,6 @@ file '/home/jellyfish/ux/public/appVersion.js' do
   group 'jellyfish'
   mode '0644'
 end
-
 
 log 'Run node'
 bash 'run node' do
