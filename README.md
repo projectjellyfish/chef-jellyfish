@@ -32,12 +32,12 @@ Attributes
 ######Attributes specifically for Project Jellyfish
 - `default["jellyfish"]["api"]["enabled"]` - Enable the install of Jellyfish API
 - `default["jellyfish"]["ux"]["enabled"]` - Enable the install of Jellyfish UX
-- `default["jellyfish"]["api"]["cors_allow_origin"]` - Comma seperated list of host that you want to be able to access Jellyfish API
+- `default["jellyfish"]["api"]["cors_allow_origin"]` - Comma separated list of host that you want to be able to access Jellyfish API
 - `default["jellyfish"]["ux"]["app_config_js"]` - Single FQDN: https://some-host.company.com:port (if port is different that the standard port)
 
 Usage
 -----
-Simply add recipe[jellyfish] to a run list or add the cookbook to a role you have created. 
+Simply add recipe[jellyfish] to a run list or add the cookbook to a role you have created.
 
 
 Deploying a Project Jellyfish Server
@@ -64,7 +64,7 @@ This section details "quick deployment" steps.
                     file_cache_path "/tmp/chef"
                     cookbook_path "/tmp/chef/cookbooks"
           EOF
- 
+
 
 
 4. Create a chef-jellyfish.json file, this will be the attributes file and contains the run_list, run the commands below
@@ -81,63 +81,63 @@ This section details "quick deployment" steps.
 4. Install dependencies:
 
         cd /tmp/chef/cookbooks
-        
+
         knife cookbook site download rbenv
         tar xvfz rbenv-*.tar.gz
-        rm -f rbenv-*.tar.gz    
-        
+        rm -f rbenv-*.tar.gz
+
         knife cookbook site download nginx
         tar xvfz nginx-*.tar.gz
-        rm -f nginx-*.tar.gz     
-        
+        rm -f nginx-*.tar.gz
+
         knife cookbook site download apt
         tar xvfz apt-*.tar.gz
         rm -f apt-*.tar.gz
-        
+
         knife cookbook site download yum-epel
         tar xvfz yum-epel-*.tar.gz
         rm -f yum-epel-*.tar.gz
-        
+
         knife cookbook site download runit
         tar xvfz runit-*.tar.gz
         rm -f runit-*.tar.gz
-        
+
         knife cookbook site download ohai
         tar xvfz ohai-*.tar.gz
         rm -f ohai-*.tar.gz
-        
+
         knife cookbook site download build-essential
         tar xvfz build-essential-*.tar.gz
         rm -f build-essential-*.tar.gz
-       
+
         knife cookbook site download bluepill
         tar xvfz bluepill-*.tar.gz
         rm -f bluepill-*.tar.gz
-        
+
         knife cookbook site download yum
         tar xvfz yum-*.tar.gz
         rm -f yum-*.tar.gz
-        
+
         knife cookbook site download rsyslog
         tar xvfz rsyslog-*.tar.gz
         rm -f rsyslog-*.tar.gz
-        
+
         knife cookbook site download git
         tar xvfz git-*.tar.gz
         rm -f git-*.tar.gz
-        
+
         knife cookbook site download dmg
         tar xvfz dmg-*.tar.gz
         rm -f dmg-*.tar.gz
-        
+
         knife cookbook site download windows
         tar xvfz windows-*.tar.gz
         rm -f windows-*.tar.gz
-        
+
         knife cookbook site download chef_handler
         tar xvfz chef_handler-*.tar.gz
         rm -f chef_handler-*.tar.gz
-        
+
 6. Download and extract the cookbook:
 
           yum install -y wget
@@ -145,7 +145,7 @@ This section details "quick deployment" steps.
           tar xvfz master.tar.gz
           rm master.tar.gz
           mv chef-jellyfish-master/ chef-jellyfish
-    
+
 7. Run Chef-solo:
 
           cd /tmp/chef
@@ -154,6 +154,8 @@ This section details "quick deployment" steps.
 License & Authors
 -----------------
 - Author:: Thomas A. McGonagle
+- Author:: Mandeep Bal
+- Author:: Chris Kacerguis
 
 ```text
 Copyright:: 2015, Booz Allen Hamilton
