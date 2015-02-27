@@ -16,19 +16,19 @@ default['jellyfish']['ux']['app_config_js'] = 'localhost:3030'
 # PostgreSQL RPM repo file
 default['pgdg_rpm'] = 'http://yum.postgresql.org/9.3/redhat/rhel-6-x86_64/pgdg-redhat93-9.3-1.noarch.rpm'
 
-#rbenv
-default['rbenv']['user']           = "jellyfish"
-default['rbenv']['group']          = "jellyfish"
+# rbenv variables
+default['rbenv']['user']           = 'jellyfish'
+default['rbenv']['group']          = 'jellyfish'
 default['rbenv']['manage_home']    = true
 default['rbenv']['group_users']    = Array.new
-default['rbenv']['git_repository'] = "https://github.com/sstephenson/rbenv.git"
-default['rbenv']['git_revision']   = "master"
-default['rbenv']['install_prefix'] = "/home/jellyfish"
+default['rbenv']['git_repository'] = 'https://github.com/sstephenson/rbenv.git'
+default['rbenv']['git_revision']   = 'master'
+default['rbenv']['install_prefix'] = '/home/jellyfish'
 default['rbenv']['root_path']      = "#{node['rbenv']['install_prefix']}/.rbenv"
 default['rbenv']['user_home']      = "/home/#{node['rbenv']['user']}"
 
-default['ruby_build']['git_repository'] = "https://github.com/sstephenson/ruby-build.git"
-default['ruby_build']['git_revision']   = "master"
+default['ruby_build']['git_repository'] = 'https://github.com/sstephenson/ruby-build.git'
+default['ruby_build']['git_revision']   = 'master'
 
-default['rbenv_vars']['git_repository'] = "https://github.com/sstephenson/rbenv-vars.git"
-default['rbenv_vars']['git_revision']   = "master"
+default['rbenv_vars']['git_repository'] = 'https://github.com/sstephenson/rbenv-vars.git'
+default['rbenv_vars']['git_revision']   = 'master'
