@@ -60,12 +60,12 @@ bash 'mv api-master api' do
   creates '/home/jellyfish/api'
 end
 
-directory "node['rbenv']['root_path']" do
-  owner 'root'
-  group 'root'
-  mode '0755'
-  action :create
-end
+#directory "node['rbenv']['root_path']" do
+#  owner 'root'
+#  group 'root'
+#  mode '0755'
+#  action :create
+#end
 
 #git "node['rbenv']['root_path']" do
 #  repository "https://github.com/sstephenson/rbenv.git" 
@@ -74,6 +74,19 @@ end
 #  user node['rbenv']['user']
 #  group node['rbenv']['group']
 #end
+
+directory '/home/jellyfish/.rbenv' do
+  owner 'root'
+  group 'root'
+  mode '0755'
+  action :create
+end
+
+git '/home/jellyfish/.rbenv' do
+  repository 'https://github.com/sstephenson/rbenv.git'
+  revision "master"
+  action :sync
+end
 
 
 
