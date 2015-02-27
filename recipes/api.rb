@@ -37,37 +37,37 @@ yum_package 'sqlite-devel'
 yum_package 'unzip'
 
 log 'Checkout the latest code'
-remote_file "#{node['rbenv']['user_home']}/api-master.zip" do
+remote_file '/home/jellyfish/api-master.zip' do
   source 'https://github.com/projectjellyfish/api/archive/master.zip'
   mode '0644'
 end
 
 bash 'unzip api-master.zip' do
-  cwd "#{node['rbenv']['user_home']}"
+  cwd '/home/jellyfish'
   user 'jellyfish'
   code <<-EOH
   unzip api-master.zip
   EOH
-  creates "#{node['rbenv']['user_home']}/api-master"
+  creates '/home/jellyfish/api-master'
 end
 
 bash 'mv api-master api' do
-  cwd "#{node['rbenv']['user_home']}"
+  cwd '/home/jellyfish'
   user 'jellyfish'
   code <<-EOH
-   mv #{node['rbenv']['user_home']}/api-master #{node['rbenv']['user_home']}/api
+   mv /home/jellyfish/api-master /home/jellyfish/api
   EOH
-  creates "#{node['rbenv']['user_home']}/api"
+  creates '/home/jellyfish/api'
 end
 
-directory  "#{node['rbenv']['user_home']}/.rbenv" do
+directory '/home/jellyfish/.rbenv' do
   owner 'jellyfish'
   group 'jellyfish'
   mode '0755'
   action :create
 end
 
-git  "#{node['rbenv']['user_home']}/.rbenv" do
+git '/home/jellyfish/.rbenv' do
   repository 'https://github.com/sstephenson/rbenv.git'
   revision "master"
   action :sync
