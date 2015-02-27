@@ -60,24 +60,9 @@ bash 'mv api-master api' do
   creates '/home/jellyfish/api'
 end
 
-#directory "node['rbenv']['root_path']" do
-#  owner 'root'
-#  group 'root'
-#  mode '0755'
-#  action :create
-#end
-
-#git "node['rbenv']['root_path']" do
-#  repository "https://github.com/sstephenson/rbenv.git" 
-#  revision "master"
-#  action :sync
-#  user node['rbenv']['user']
-#  group node['rbenv']['group']
-#end
-
 directory '/home/jellyfish/.rbenv' do
-  owner 'root'
-  group 'root'
+  owner 'jellyfish'
+  group 'jellyfish'
   mode '0755'
   action :create
 end
@@ -86,6 +71,8 @@ git '/home/jellyfish/.rbenv' do
   repository 'https://github.com/sstephenson/rbenv.git'
   revision "master"
   action :sync
+  user 'jellyfish'
+  group 'jellyfish'
 end
 
 
@@ -176,14 +163,14 @@ bash 'gem instal sqlite3' do
   creates '/home/jellyfish/.rbenv/versions/2.2.0/lib/ruby/gems/2.2.0/gems/sqlite3-1.3.10'
 end
 
-bash 'sed requiretty sudoers' do
-  cwd '/opt/'
-  user 'root'
-  code <<-EOH
-  sed -i 's/^.*requiretty/#Defaults requiretty/' /etc/sudoers
-  EOH
-  not_if('grep requiretty /etc/sudoers|grep ^#Defaults')
-end
+#bash 'sed requiretty sudoers' do
+#  cwd '/opt/'
+#  user 'root'
+#  code <<-EOH
+#  sed -i 's/^.*requiretty/#Defaults requiretty/' /etc/sudoers
+#  EOH
+#  not_if('grep requiretty /etc/sudoers|grep ^#Defaults')
+#end
 
 
 log 'Application.yml configuration file'
