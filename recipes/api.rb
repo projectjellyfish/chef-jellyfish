@@ -11,7 +11,7 @@ node.set['ruby_build']['prefix']   = "#{node['rbenv']['root']}/plugins/ruby_buil
 node.set['ruby_build']['bin_path'] = "#{node['ruby_build']['prefix']}/bin"
 
 log 'Create jellyfish user'
-user 'jellyfish' do
+user node['jellyfish']['user'] do
   comment 'jellyfish user'
   shell '/bin/bash'
 end
@@ -44,7 +44,7 @@ end
 
 bash 'unzip api-master.zip' do
   cwd node['rbenv']['user_home']
-  user 'jellyfish'
+  user node['jellyfish']['user']
   code <<-EOH
   unzip api-master.zip
   EOH
@@ -53,16 +53,16 @@ end
 
 bash 'mv api-master api' do
   cwd node['rbenv']['user_home']
-  user 'jellyfish'
+  user node['jellyfish']['user']
   code <<-EOH
    mv #{node['rbenv']['user_home']}/api-master #{node['rbenv']['user_home']}/api
   EOH
   creates "#{node['rbenv']['user_home']}/api"
 end
 
-directory  "#{node['rbenv']['user_home']}/.rbenv" do
-  owner 'jellyfish'
-  group 'jellyfish'
+directory "#{node['rbenv']['user_home']}/.rbenv" do
+  owner node['jellyfish']['user']
+  group node['jellyfish']['group']
   mode '0755'
   action :create
 end
@@ -71,8 +71,8 @@ git "#{node['rbenv']['user_home']}/.rbenv" do
   repository 'https://github.com/sstephenson/rbenv.git'
   revision "master"
   action :sync
-  user 'jellyfish'
-  group 'jellyfish'
+  user node['rbenv']['user'] 
+  group node['rbenv']['group']
 end
 
 template "#{node['rbenv']['user_home']}/.bash_profile" do
@@ -112,7 +112,7 @@ end
 log 'Installing Ruby 2.2.0'
 bash 'install ruby 2.2.0' do
   cwd node['rbenv']['user_home']
-  user 'jellyfish'
+  user node['rbenv']['user']
   code <<-EOH
    source #{node['rbenv']['user_home']}/.bash_profile && #{node['rbenv']['user_home']}/.rbenv/bin/rbenv install 2.2.0
   EOH
@@ -138,7 +138,7 @@ yum_package 'postgresql93-contrib'
 log 'Install gem pg'
 bash 'gem instal pg' do
   cwd node['rbenv']['user_home']
-  user 'jellyfish'
+  user node['rbenv']['user']
   code <<-EOH
    source #{node['rbenv']['user_home']}/.bash_profile
    #{node['rbenv']['user_home']}/.rbenv/bin/rbenv global 2.2.0
@@ -151,7 +151,7 @@ end
 log 'Install gem sqlite3'
 bash 'gem instal sqlite3' do
   cwd node['rbenv']['user_home']
-  user 'jellyfish'
+  user node['rbenv']['user']
   code <<-EOH
   source #{node['rbenv']['user_home']}/.bash_profile
   #{node['rbenv']['user_home']}/.rbenv/bin/rbenv global 2.2.0
@@ -164,8 +164,8 @@ log 'Application.yml configuration file'
 template "#{node['rbenv']['user_home']}/api/.env" do
   source 'dotEnv.erb'
   mode '0644'
-  owner 'jellyfish'
-  group 'jellyfish'
+  owner node['jellyfish']['user']
+  group node['jellyfish']['user']
 end
 
 log 'Install bundler'
@@ -183,7 +183,7 @@ end
 log 'bundle api'
 bash 'bundle api' do
   cwd "#{node['rbenv']['user_home']}/api"
-  user 'jellyfish'
+  user node['jellyfish']['user']
   code <<-EOH
   source #{node['rbenv']['user_home']}/.bash_profile && bundle
   EOH
@@ -220,7 +220,7 @@ end
 log 'Running rake tasks'
 bash 'rake tasks' do
   cwd "#{node['rbenv']['user_home']}/api"
-  user 'jellyfish'
+  user node['jellyfish']['user']
   code <<-EOH
   source #{node['rbenv']['user_home']}/.bash_profile.sh
   rake db:drop db:create db:migrate
@@ -232,7 +232,7 @@ end
 log 'Starting rails'
 bash 'rails s -d' do
   cwd "#{node['rbenv']['user_home']}/api"
-  user 'jellyfish'
+  user node['jellyfish']['user']
   code <<-EOH
   source #{node['rbenv']['user_home']}/.bash_profile && #{node['rbenv']['user_home']}/api/bin/rails s -d &
   touch /tmp/rails_started
