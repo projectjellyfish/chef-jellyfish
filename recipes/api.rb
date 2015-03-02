@@ -1,4 +1,4 @@
-#
+#h
 # Cookbook Name:: chef-jellyfish
 # Recipe:: api
 #
@@ -114,9 +114,9 @@ bash 'install ruby 2.2.0' do
   cwd node['rbenv']['user_home']
   user 'jellyfish'
   code <<-EOH
-   source /home/jellyfish/.bash_profile && /home/jellyfish/.rbenv/bin/rbenv install 2.2.0
+   source #{node['rbenv']['user_home']}/.bash_profile && #{node['rbenv']['user_home']}/.rbenv/bin/rbenv install 2.2.0
   EOH
-  creates '/home/jellyfish/.rbenv/versions/2.2.0'
+  creates "#{node['rbenv']['user_home']}/.rbenv/versions/2.2.0"
 end
 
 log 'Install PostgreSQL'
@@ -140,12 +140,12 @@ bash 'gem instal pg' do
   cwd node['rbenv']['user_home']
   user 'jellyfish'
   code <<-EOH
-   source /home/jellyfish/.bash_profile
-   /home/jellyfish/.rbenv/bin/rbenv global 2.2.0
-   /home/jellyfish/.rbenv/versions/2.2.0/bin/gem install pg -v '0.17.1' -- \
+   source #{node['rbenv']['user_home']}/.bash_profile
+   #{node['rbenv']['user_home']}/.rbenv/bin/rbenv global 2.2.0
+   #{node['rbenv']['user_home']}/.rbenv/versions/2.2.0/bin/gem install pg -v '0.17.1' -- \
    --with-pg-config=/usr/pgsql-9.3/bin/pg_config
   EOH
-  creates '/home/jellyfish/.rbenv/versions/2.2.0/lib/ruby/gems/2.2.0/gems/pg-0.17.1'
+  creates "#{node['rbenv']['user_home']}/.rbenv/versions/2.2.0/lib/ruby/gems/2.2.0/gems/pg-0.17.1"
 end
 
 log 'Install gem sqlite3'
@@ -153,25 +153,15 @@ bash 'gem instal sqlite3' do
   cwd node['rbenv']['user_home']
   user 'jellyfish'
   code <<-EOH
-  source /home/jellyfish/.bash_profile
-  /home/jellyfish/.rbenv/bin/rbenv global 2.2.0
-  /home/jellyfish/.rbenv/versions/2.2.0/bin/gem install sqlite3 -v '1.3.10'
+  source #{node['rbenv']['user_home']}/.bash_profile
+  #{node['rbenv']['user_home']}/.rbenv/bin/rbenv global 2.2.0
+  #{node['rbenv']['user_home']}/.rbenv/versions/2.2.0/bin/gem install sqlite3 -v '1.3.10'
   EOH
-  creates '/home/jellyfish/.rbenv/versions/2.2.0/lib/ruby/gems/2.2.0/gems/sqlite3-1.3.10'
+  creates "#{node['rbenv']['user_home']}/.rbenv/versions/2.2.0/lib/ruby/gems/2.2.0/gems/sqlite3-1.3.10"
 end
 
-#bash 'sed requiretty sudoers' do
-#  cwd '/opt/'
-#  user 'root'
-#  code <<-EOH
-#  sed -i 's/^.*requiretty/#Defaults requiretty/' /etc/sudoers
-#  EOH
-#  not_if('grep requiretty /etc/sudoers|grep ^#Defaults')
-#end
-
-
 log 'Application.yml configuration file'
-template '/home/jellyfish/api/.env' do
+template "#{node['rbenv']['user_home']}/api/.env" do
   source 'dotEnv.erb'
   mode '0644'
   owner 'jellyfish'
@@ -183,11 +173,11 @@ bash 'gem instal bundler' do
   cwd "#{node['rbenv']['user_home']}/.rbenv/"
   user 'root'
   code <<-EOH
-  source /home/jellyfish/.bash_profile
-  /home/jellyfish/.rbenv/bin/rbenv global 2.2.0
-  /home/jellyfish/.rbenv//versions/2.2.0/bin/gem install bundler
+  source #{node['rbenv']['user_home']}/.bash_profile
+  #{node['rbenv']['user_home']}/.rbenv/bin/rbenv global 2.2.0
+  #{node['rbenv']['user_home']}/.rbenv//versions/2.2.0/bin/gem install bundler
   EOH
-  creates '/home/jellyfish/.rbenv/versions/2.2.0/lib/ruby/gems/2.2.0/gems/bundler'
+  creates "#{node['rbenv']['user_home']}/.rbenv/versions/2.2.0/lib/ruby/gems/2.2.0/gems/bundler"
 end
 
 log 'bundle api'
@@ -195,9 +185,9 @@ bash 'bundle api' do
   cwd "#{node['rbenv']['user_home']}/api"
   user 'jellyfish'
   code <<-EOH
-  source /home/jellyfish/.bash_profile && bundle
+  source #{node['rbenv']['user_home']}/.bash_profile && bundle
   EOH
-  creates '/home/jellyfish/.rbenv/versions/2.2.0/lib/ruby/gems/2.2.0/gems/xml-simple-1.1.4'
+  creates "#{node['rbenv']['user_home']}/.rbenv/versions/2.2.0/lib/ruby/gems/2.2.0/gems/xml-simple-1.1.4"
 end
 
 log 'Populate the database'
@@ -232,7 +222,7 @@ bash 'rake tasks' do
   cwd "#{node['rbenv']['user_home']}/api"
   user 'jellyfish'
   code <<-EOH
-  source /home/jellyfish/.bash_profile.sh
+  source #{node['rbenv']['user_home']}/.bash_profile.sh
   rake db:drop db:create db:migrate
   rake db:seed && touch /tmp/rake_db_create
   EOH
@@ -244,7 +234,7 @@ bash 'rails s -d' do
   cwd "#{node['rbenv']['user_home']}/api"
   user 'jellyfish'
   code <<-EOH
-  source /home/jellyfish/.bash_profile && /home/jellyfish/api/bin/rails s -d &
+  source #{node['rbenv']['user_home']}/.bash_profile && #{node['rbenv']['user_home']}/api/bin/rails s -d &
   touch /tmp/rails_started
   EOH
   creates '/tmp/rails_started'
