@@ -1,4 +1,4 @@
-#h
+#
 # Cookbook Name:: chef-jellyfish
 # Recipe:: api
 #
@@ -7,7 +7,7 @@
 # All rights reserved - Do Not Redistribute
 #
 node.set['rbenv']['root']          = rbenv_root_path
-node.set['ruby_build']['prefix']   = "#{node['rbenv']['root']}/plugins/ruby_build"
+node.set['ruby_build']['prefix'] = "#{node['rbenv']['root']}/plugins/ruby_build"
 node.set['ruby_build']['bin_path'] = "#{node['ruby_build']['prefix']}/bin"
 
 log 'Create jellyfish user'
@@ -69,16 +69,16 @@ end
 
 git "#{node['rbenv']['user_home']}/.rbenv" do
   repository 'https://github.com/sstephenson/rbenv.git'
-  revision "master"
+  revision 'master'
   action :sync
-  user node['rbenv']['user'] 
+  user node['rbenv']['user']
   group node['rbenv']['group']
 end
 
 template "#{node['rbenv']['user_home']}/.bash_profile" do
-  source "bash_profile.erb"
-  mode "0644"
-  notifies :create, "ruby_block[initialize_rbenv]", :immediately
+  source 'bash_profile.erb'
+  mode '0644'
+  notifies :create, 'ruby_block[initialize_rbenv]', :immediately
 end
 
 ruby_block "initialize_rbenv" do
@@ -92,11 +92,11 @@ end
 # rbenv init creates these directories as root because it is called
 # from /etc/profile.d/rbenv.sh But we want them to be owned by rbenv
 # check https://github.com/sstephenson/rbenv/blob/master/libexec/rbenv-init#L71
-%w{shims versions plugins}.each do |dir_name|
+%w(shims versions plugins).each do |dir_name|
   directory "#{node['rbenv']['root']}/#{dir_name}" do
     owner node['rbenv']['user']
     group node['rbenv']['group']
-    mode "2775"
+    mode '2775'
     action [:create]
   end
 end
@@ -114,7 +114,8 @@ bash 'install ruby 2.2.0' do
   cwd node['rbenv']['user_home']
   user node['rbenv']['user']
   code <<-EOH
-   source #{node['rbenv']['user_home']}/.bash_profile && #{node['rbenv']['user_home']}/.rbenv/bin/rbenv install 2.2.0
+   source #{node['rbenv']['user_home']}/.bash_profile 
+   #{node['rbenv']['user_home']}/.rbenv/bin/rbenv install 2.2.0
   EOH
   creates "#{node['rbenv']['user_home']}/.rbenv/versions/2.2.0"
 end
@@ -142,8 +143,8 @@ bash 'gem instal pg' do
   code <<-EOH
    source #{node['rbenv']['user_home']}/.bash_profile
    #{node['rbenv']['user_home']}/.rbenv/bin/rbenv global 2.2.0
-   #{node['rbenv']['user_home']}/.rbenv/versions/2.2.0/bin/gem install pg -v '0.17.1' -- \
-   --with-pg-config=/usr/pgsql-9.3/bin/pg_config
+   #{node['rbenv']['user_home']}/.rbenv/versions/2.2.0/bin/gem install pg -v \
+   '0.17.1' -- --with-pg-config=/usr/pgsql-9.3/bin/pg_config
   EOH
   creates "#{node['rbenv']['user_home']}/.rbenv/versions/2.2.0/lib/ruby/gems/2.2.0/gems/pg-0.17.1"
 end
@@ -155,7 +156,8 @@ bash 'gem instal sqlite3' do
   code <<-EOH
   source #{node['rbenv']['user_home']}/.bash_profile
   #{node['rbenv']['user_home']}/.rbenv/bin/rbenv global 2.2.0
-  #{node['rbenv']['user_home']}/.rbenv/versions/2.2.0/bin/gem install sqlite3 -v '1.3.10'
+  #{node['rbenv']['user_home']}/.rbenv/versions/2.2.0/bin/gem install sqlite3 \
+  -v '1.3.10'
   EOH
   creates "#{node['rbenv']['user_home']}/.rbenv/versions/2.2.0/lib/ruby/gems/2.2.0/gems/sqlite3-1.3.10"
 end
@@ -234,9 +236,9 @@ bash 'rails s -d' do
   cwd "#{node['rbenv']['user_home']}/api"
   user node['jellyfish']['user']
   code <<-EOH
-  source #{node['rbenv']['user_home']}/.bash_profile && #{node['rbenv']['user_home']}/api/bin/rails s -d &
+  source #{node['rbenv']['user_home']}/.bash_profile 
+  #{node['rbenv']['user_home']}/api/bin/rails s -d &
   touch /tmp/rails_started
   EOH
   creates '/tmp/rails_started'
 end
-
