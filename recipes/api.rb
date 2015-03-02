@@ -43,7 +43,7 @@ remote_file "#{node['rbenv']['user_home']}/api-master.zip" do
 end
 
 bash 'unzip api-master.zip' do
-  cwd "#{node['rbenv']['user_home']}"
+  cwd node['rbenv']['user_home']
   user 'jellyfish'
   code <<-EOH
   unzip api-master.zip
@@ -52,7 +52,7 @@ bash 'unzip api-master.zip' do
 end
 
 bash 'mv api-master api' do
-  cwd "#{node['rbenv']['user_home']}"
+  cwd node['rbenv']['user_home']
   user 'jellyfish'
   code <<-EOH
    mv #{node['rbenv']['user_home']}/api-master #{node['rbenv']['user_home']}/api
@@ -67,7 +67,7 @@ directory  "#{node['rbenv']['user_home']}/.rbenv" do
   action :create
 end
 
-git  "#{node['rbenv']['user_home']}/.rbenv" do
+git "#{node['rbenv']['user_home']}/.rbenv" do
   repository 'https://github.com/sstephenson/rbenv.git'
   revision "master"
   action :sync
@@ -75,9 +75,7 @@ git  "#{node['rbenv']['user_home']}/.rbenv" do
   group 'jellyfish'
 end
 
-
-
-template "/home/jellyfish/.bash_profile" do
+template "#{node['rbenv']['user_home']}/.bash_profile" do
   source "bash_profile.erb"
   mode "0644"
   notifies :create, "ruby_block[initialize_rbenv]", :immediately
@@ -88,7 +86,6 @@ ruby_block "initialize_rbenv" do
     ENV['RBENV_ROOT'] = node['rbenv']['root']
     ENV['PATH'] = "#{node['rbenv']['root']}/bin:#{node['rbenv']['root']}/shims:#{node['ruby_build']['bin_path']}:#{ENV['PATH']}"
   end
-
   action :nothing
 end
 
@@ -114,7 +111,7 @@ end
 
 log 'Installing Ruby 2.2.0'
 bash 'install ruby 2.2.0' do
-  cwd '/home/jellyfish'
+  cwd node['rbenv']['user_home']
   user 'jellyfish'
   code <<-EOH
    source /home/jellyfish/.bash_profile && /home/jellyfish/.rbenv/bin/rbenv install 2.2.0
@@ -140,7 +137,7 @@ yum_package 'postgresql93-contrib'
 
 log 'Install gem pg'
 bash 'gem instal pg' do
-  cwd '/home/jellyfish/'
+  cwd node['rbenv']['user_home']
   user 'jellyfish'
   code <<-EOH
    source /home/jellyfish/.bash_profile
@@ -153,7 +150,7 @@ end
 
 log 'Install gem sqlite3'
 bash 'gem instal sqlite3' do
-  cwd '/home/jellyfish/'
+  cwd node['rbenv']['user_home']
   user 'jellyfish'
   code <<-EOH
   source /home/jellyfish/.bash_profile
@@ -183,7 +180,7 @@ end
 
 log 'Install bundler'
 bash 'gem instal bundler' do
-  cwd '/home/jellyfish/.rbenv/'
+  cwd "#{node['rbenv']['user_home']}/.rbenv/"
   user 'root'
   code <<-EOH
   source /home/jellyfish/.bash_profile
@@ -195,7 +192,7 @@ end
 
 log 'bundle api'
 bash 'bundle api' do
-  cwd '/home/jellyfish/api'
+  cwd "#{node['rbenv']['user_home']}/api"
   user 'jellyfish'
   code <<-EOH
   source /home/jellyfish/.bash_profile && bundle
@@ -205,7 +202,7 @@ end
 
 log 'Populate the database'
 bash 'postgresql 9.3 initdb ' do
-  cwd '/home/jellyfish/api'
+  cwd "#{node['rbenv']['user_home']}/api"
   user 'root'
   code <<-EOH
   service postgresql-9.3 initdb
@@ -232,7 +229,7 @@ end
 
 log 'Running rake tasks'
 bash 'rake tasks' do
-  cwd '/home/jellyfish/api'
+  cwd "#{node['rbenv']['user_home']}/api"
   user 'jellyfish'
   code <<-EOH
   source /home/jellyfish/.bash_profile.sh
@@ -244,7 +241,7 @@ end
 
 log 'Starting rails'
 bash 'rails s -d' do
-  cwd '/home/jellyfish/api'
+  cwd "#{node['rbenv']['user_home']}/api"
   user 'jellyfish'
   code <<-EOH
   source /home/jellyfish/.bash_profile && /home/jellyfish/api/bin/rails s -d &
