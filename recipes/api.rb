@@ -81,7 +81,7 @@ template "#{node['rbenv']['user_home']}/.bash_profile" do
   notifies :create, 'ruby_block[initialize_rbenv]', :immediately
 end
 
-ruby_block "initialize_rbenv" do
+ruby_block 'initialize_rbenv' do
   block do
     ENV['RBENV_ROOT'] = node['rbenv']['root']
     ENV['PATH'] = "#{node['rbenv']['root']}/bin:#{node['rbenv']['root']}/shims:#{node['ruby_build']['bin_path']}:#{ENV['PATH']}"
@@ -114,7 +114,7 @@ bash 'install ruby 2.2.0' do
   cwd node['rbenv']['user_home']
   user node['rbenv']['user']
   code <<-EOH
-   source #{node['rbenv']['user_home']}/.bash_profile 
+   source #{node['rbenv']['user_home']}/.bash_profile
    #{node['rbenv']['user_home']}/.rbenv/bin/rbenv install 2.2.0
   EOH
   creates "#{node['rbenv']['user_home']}/.rbenv/versions/2.2.0"
@@ -236,7 +236,7 @@ bash 'rails s -d' do
   cwd "#{node['rbenv']['user_home']}/api"
   user node['jellyfish']['user']
   code <<-EOH
-  source #{node['rbenv']['user_home']}/.bash_profile 
+  source #{node['rbenv']['user_home']}/.bash_profile
   #{node['rbenv']['user_home']}/api/bin/rails s -d &
   touch /tmp/rails_started
   EOH
