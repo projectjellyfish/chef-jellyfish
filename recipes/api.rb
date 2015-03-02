@@ -84,7 +84,9 @@ end
 ruby_block 'initialize_rbenv' do
   block do
     ENV['RBENV_ROOT'] = node['rbenv']['root']
-    ENV['PATH'] = "#{node['rbenv']['root']}/bin:#{node['rbenv']['root']}/shims:#{node['ruby_build']['bin_path']}:#{ENV['PATH']}"
+    ENV['PATH'] = "#{node['rbenv']['root']}/bin"
+    ENV['PATH'] = ":#{ENV['PATH']}:#{node['rbenv']['root']}/shims"
+    ENV['PATH'] = ":#{ENV['PATH']}:#{node['ruby_build']['bin_path']}""
   end
   action :nothing
 end
