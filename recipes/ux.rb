@@ -36,45 +36,45 @@ bash 'Install Node' do
 end
 
 log 'Checkout and Unzip the latest UX Code'
-remote_file '/home/jellyfish/ux-master.zip' do
+remote_file "#{node['rbenv']['user_home']}/ux-master.zip" do
   source 'https://github.com/projectjellyfish/ux/archive/master.zip'
   mode '0644'
 end
 
 log 'Unzip ux-master and move it to ux'
 bash 'unzip ux-master.zip' do
-  cwd '/home/jellyfish'
+  cwd node['rbenv']['user_home']
   user 'jellyfish'
   code <<-EOH
   unzip ux-master.zip
   EOH
-  creates '/home/jellyfish/ux-master'
+  creates "#{node['rbenv']['user_home']}/ux-master"
 end
 
 bash 'mv ux-master ux' do
   cwd '/home/jellyfish'
-  user 'jellyfish'
+  user node['rbenv']['user_home'] 
   code <<-EOH
-   mv /home/jellyfish/ux-master /home/jellyfish/ux
+   mv #{node['rbenv']['user_home']}/ux-master #{node['rbenv']['user_home']}/ux
   EOH
-  creates '/home/jellyfish/ux'
+  creates "#{node['rbenv']['user_home']}/ux"
 end
 
 log 'Run gulp and Install into Production'
 bash 'Install npm, forever and gulp production' do
   user 'root'
-  cwd '/home/jellyfish/ux'
+  cwd "#{node['rbenv']['user_home']}/ux"
   code <<-EOH
   /usr/bin/npm link
   /usr/bin/npm install -g
   /usr/bin/gulp production
   /usr/bin/npm install forever  -g
   EOH
-  creates '/home/jellyfish/ux/node_modules/winston'
+  creates "#{node['rbenv']['user_home']}/ux/node_modules/winston"
 end
 
 log 'Set ENV settings'
-template '/home/jellyfish/ux/public/appConfig.js' do
+template "#{node['rbenv']['user_home']}/ux/public/appConfig.js" do
   source 'appConfig.js.erb'
   owner 'jellyfish'
   group 'jellyfish'
@@ -82,7 +82,7 @@ template '/home/jellyfish/ux/public/appConfig.js' do
 end
 
 log 'Change user permissions appVersion.js'
-file '/home/jellyfish/ux/public/appVersion.js' do
+file "#{node['rbenv']['user_home']}/ux/public/appVersion.js" do
   owner 'jellyfish'
   group 'jellyfish'
   mode '0644'
@@ -91,7 +91,7 @@ end
 log 'Run node'
 bash 'run node' do
   user 'jellyfish'
-  cwd '/home/jellyfish/ux'
+  cwd "#{node['rbenv']['user_home']}/ux"
   code <<-EOH
   /usr/bin/forever start app.js &
   touch /tmp/node_is_running
