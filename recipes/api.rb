@@ -84,9 +84,10 @@ end
 ruby_block 'initialize_rbenv' do
   block do
     ENV['RBENV_ROOT'] = node['rbenv']['root']
-    ENV['PATH'] = "#{node['rbenv']['root']}/bin"
-    ENV['PATH'] = ":#{ENV['PATH']}:#{node['rbenv']['root']}/shims"
-    ENV['PATH'] = ":#{ENV['PATH']}:#{node['ruby_build']['bin_path']}""
+    #ENV['PATH'] = "#{node['rbenv']['root']}/bin"
+    #ENV['PATH'] = ":#{ENV['PATH']}:#{node['rbenv']['root']}/shims"
+    #ENV['PATH'] = ":#{ENV['PATH']}:#{node['ruby_build']['bin_path']}""
+    ENV['PATH'] = "#{node['rbenv']['root']}/bin:#{node['rbenv']['root']}/shims:#{node['ruby_build']['bin_path']}:#{ENV['PATH']}"
   end
   action :nothing
 end
@@ -148,7 +149,7 @@ bash 'gem instal pg' do
    #{node['rbenv']['user_home']}/.rbenv/versions/2.2.0/bin/gem install pg -v \
    '0.17.1' -- --with-pg-config=/usr/pgsql-9.3/bin/pg_config
   EOH
-  creates "#{node['rbenv']['user_home']}/.rbenv/versions/2.2.0/lib/ruby/gems/2.2.0/gems/pg-0.17.1"
+  creates "#{node['rbenv']['gems_directory']}/pg-0.17.1"
 end
 
 log 'Install gem sqlite3'
@@ -161,7 +162,7 @@ bash 'gem instal sqlite3' do
   #{node['rbenv']['user_home']}/.rbenv/versions/2.2.0/bin/gem install sqlite3 \
   -v '1.3.10'
   EOH
-  creates "#{node['rbenv']['user_home']}/.rbenv/versions/2.2.0/lib/ruby/gems/2.2.0/gems/sqlite3-1.3.10"
+  creates "#{node['rbenv']['gems_directory']}/sqlite3-1.3.10"
 end
 
 log 'Application.yml configuration file'
@@ -181,7 +182,7 @@ bash 'gem instal bundler' do
   #{node['rbenv']['user_home']}/.rbenv/bin/rbenv global 2.2.0
   #{node['rbenv']['user_home']}/.rbenv//versions/2.2.0/bin/gem install bundler
   EOH
-  creates "#{node['rbenv']['user_home']}/.rbenv/versions/2.2.0/lib/ruby/gems/2.2.0/gems/bundler"
+  creates "#{node['rbenv']['gems_directory']}/bundler-1.8.3"
 end
 
 log 'bundle api'
@@ -191,7 +192,7 @@ bash 'bundle api' do
   code <<-EOH
   source #{node['rbenv']['user_home']}/.bash_profile && bundle
   EOH
-  creates "#{node['rbenv']['user_home']}/.rbenv/versions/2.2.0/lib/ruby/gems/2.2.0/gems/xml-simple-1.1.4"
+  creates "#{node['rbenv']['gems_directory']}/xml-simple-1.1.4"
 end
 
 log 'Populate the database'
