@@ -31,7 +31,7 @@ default['rbenv']['install_prefix'] = '/home/jellyfish'
 default['rbenv']['root_path']      = "#{node['rbenv']['install_prefix']}/.rbenv"
 default['rbenv']['user_home']      = "/home/#{node['rbenv']['user']}"
 # rubocop:disable Metrics/LineLength, Style/StringLiterals
-default['rbenv']['gems_directory'] = '/home/jellyfish/.rbenv/versions/2.1.5/lib/ruby/gems/2.1.0/gems'
+default['rbenv']['gems_directory'] = "#{node['rbenv']['root_path']}/version/#{node['jellyfish']['ruby_version']}/lib/ruby/gems/#{node['jellyfish']['ruby_version']}/gems"
 # rubocop:enable Metrics/LineLength, Style/StringLiterals
 
 default['ruby_build']['git_repository'] = 'https://github.com/sstephenson/ruby-build.git'
