@@ -44,7 +44,7 @@ end
 log 'Unzip ux-master and move it to ux'
 bash 'unzip ux-master.zip' do
   cwd node['rbenv']['user_home']
-  user 'jellyfish'
+  user node['jellyfish']['user']
   code <<-EOH
   unzip ux-master.zip
   EOH
@@ -52,8 +52,8 @@ bash 'unzip ux-master.zip' do
 end
 
 bash 'mv ux-master ux' do
-  cwd '/home/jellyfish'
-  user node['rbenv']['user_home'] 
+  cwd node['rbenv']['user_home'] 
+  user node['jellyfish']['user']
   code <<-EOH
    mv #{node['rbenv']['user_home']}/ux-master #{node['rbenv']['user_home']}/ux
   EOH
@@ -76,21 +76,21 @@ end
 log 'Set ENV settings'
 template "#{node['rbenv']['user_home']}/ux/public/appConfig.js" do
   source 'appConfig.js.erb'
-  owner 'jellyfish'
-  group 'jellyfish'
+  owner node['jellyfish']['user']
+  group node['jellyfish']['group']
   mode '0644'
 end
 
 log 'Change user permissions appVersion.js'
 file "#{node['rbenv']['user_home']}/ux/public/appVersion.js" do
-  owner 'jellyfish'
-  group 'jellyfish'
+  owner node['jellyfish']['user']
+  group node['jellyfish']['group']
   mode '0644'
 end
 
 log 'Run node'
 bash 'run node' do
-  user 'jellyfish'
+  user node['jellyfish']['user']
   cwd "#{node['rbenv']['user_home']}/ux"
   code <<-EOH
   /usr/bin/forever start app.js &
