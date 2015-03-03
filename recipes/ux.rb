@@ -52,7 +52,7 @@ bash 'unzip ux-master.zip' do
 end
 
 bash 'mv ux-master ux' do
-  cwd node['rbenv']['user_home'] 
+  cwd node['rbenv']['user_home']
   user node['jellyfish']['user']
   code <<-EOH
    mv #{node['rbenv']['user_home']}/ux-master #{node['rbenv']['user_home']}/ux
