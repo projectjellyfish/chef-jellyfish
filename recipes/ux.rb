@@ -74,7 +74,7 @@ bash 'Install npm, forever and gulp production' do
 end
 
 log 'Set ENV settings'
-template '/opt/ux-master/public/appConfig.js' do
+template '/home/jellyfish/ux/public/appConfig.js' do
   source 'appConfig.js.erb'
   owner 'jellyfish'
   group 'jellyfish'
