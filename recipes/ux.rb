@@ -46,7 +46,7 @@ bash 'unzip ux-master.zip' do
   cwd node['rbenv']['user_home']
   user node['jellyfish']['user']
   code <<-EOH
-  /usr/bin/unzip ux-master.zip -d #{node['rbenv']['user_home']}/ux
+  /usr/bin/unzip ux-master.zip; mv ux-master ux
   EOH
   creates "#{node['rbenv']['user_home']}/ux"
 end
