@@ -117,13 +117,9 @@ bash "install ruby #{node['jellyfish']['ruby_version']}" do
   user node['rbenv']['user']
   code <<-EOH
    source #{node['rbenv']['user_home']}/.bash_profile
-# rubocop:disable Metrics/LineLength, Style/StringLiterals
-   #{node['rbenv']['user_home']}/.rbenv/bin/rbenv install #{node['jellyfish']['ruby_version']}
-# rubocop:enable Metrics/LineLength, Style/StringLiterals
+   #{node['rbenv']['exec']} install #{node['jellyfish']['ruby_version']}
   EOH
-# rubocop:disable Metrics/LineLength, Style/StringLiterals
-  creates "#{node['rbenv']['user_home']}/.rbenv/versions/#{node['jellyfish']['ruby_version']}"
-# rubocop:enable Metrics/LineLength, Style/StringLiterals
+  creates "#{node['rbenv']['installed']}"
 end
 
 log 'Install PostgreSQL'
@@ -143,25 +139,26 @@ yum_package 'postgresql93-devel'
 yum_package 'postgresql93-contrib'
 
 log 'Install gem pg'
-bash 'gem instal pg' do
+bash 'gem install pg' do
   cwd node['rbenv']['user_home']
   user node['rbenv']['user']
   code <<-EOH
    source #{node['rbenv']['user_home']}/.bash_profile
-   #{node['rbenv']['user_home']}/.rbenv/bin/rbenv global #{node['jellyfish']['ruby_version']}
-   #{node['rbenv']['user_home']}/.rbenv/versions/#{node['jellyfish']['ruby_version']}/bin/gem install pg -v '0.17.1' -- --with-pg-config=/usr/pgsql-9.3/bin/pg_config
+   #{node['rbenv']['exec']} global #{node['jellyfish']['ruby_version']}
+   #{node['rbenv']['gem_exec']} install pg -v '0.17.1' \
+   -- --with-pg-config=/usr/pgsql-9.3/bin/pg_config
   EOH
   creates "#{node['rbenv']['gems_directory']}/pg-0.17.1"
 end
 
 log 'Install gem sqlite3'
-bash 'gem instal sqlite3' do
+bash 'gem install sqlite3' do
   cwd node['rbenv']['user_home']
   user node['rbenv']['user']
   code <<-EOH
   source #{node['rbenv']['user_home']}/.bash_profile
-  #{node['rbenv']['user_home']}/.rbenv/bin/rbenv global #{node['jellyfish']['ruby_version']}
-  #{node['rbenv']['user_home']}/.rbenv/versions/#{node['jellyfish']['ruby_version']}/bin/gem install sqlite3 -v '1.3.10'
+   #{node['rbenv']['exec']} global #{node['jellyfish']['ruby_version']}
+   #{node['rbenv']['gem_exec']} install sqlite3 -v '1.3.10'
   EOH
   creates "#{node['rbenv']['gems_directory']}/sqlite3-1.3.10"
 end
@@ -180,10 +177,8 @@ bash 'gem instal bundler' do
   user 'root'
   code <<-EOH
   source #{node['rbenv']['user_home']}/.bash_profile
-# rubocop:disable Metrics/LineLength, Style/StringLiterals
-  #{node['rbenv']['user_home']}/.rbenv/bin/rbenv global #{node['jellyfish']['ruby_version']}
-  #{node['rbenv']['user_home']}/.rbenv//versions/#{node['jellyfish']['ruby_version']}/bin/gem install bundler
-# rubocop:enable Metrics/LineLength, Style/StringLiterals
+  #{node['rbenv']['exec']} global #{node['jellyfish']['ruby_version']}
+  #{node['rbenv']['gem_exec']} install bundler
   EOH
   creates "#{node['rbenv']['gems_directory']}/bundler-1.8.3"
 end
