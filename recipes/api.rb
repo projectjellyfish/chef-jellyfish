@@ -119,7 +119,7 @@ bash "install ruby #{node['jellyfish']['ruby_version']}" do
    source #{node['rbenv']['user_home']}/.bash_profile
    #{node['rbenv']['exec']} install #{node['jellyfish']['ruby_version']}
   EOH
-  creates "#{node['rbenv']['installed']}"
+  creates #{node['rbenv']['installed']
 end
 
 log 'Install PostgreSQL'
