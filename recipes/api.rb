@@ -148,10 +148,8 @@ bash 'gem instal pg' do
   user node['rbenv']['user']
   code <<-EOH
    source #{node['rbenv']['user_home']}/.bash_profile
-# rubocop:disable Metrics/LineLength, Style/StringLiterals
    #{node['rbenv']['user_home']}/.rbenv/bin/rbenv global #{node['jellyfish']['ruby_version']}
    #{node['rbenv']['user_home']}/.rbenv/versions/#{node['jellyfish']['ruby_version']}/bin/gem install pg -v '0.17.1' -- --with-pg-config=/usr/pgsql-9.3/bin/pg_config
-# rubocop:enable Metrics/LineLength, Style/StringLiterals
   EOH
   creates "#{node['rbenv']['gems_directory']}/pg-0.17.1"
 end
@@ -162,10 +160,8 @@ bash 'gem instal sqlite3' do
   user node['rbenv']['user']
   code <<-EOH
   source #{node['rbenv']['user_home']}/.bash_profile
-# rubocop:disable Metrics/LineLength, Style/StringLiterals
   #{node['rbenv']['user_home']}/.rbenv/bin/rbenv global #{node['jellyfish']['ruby_version']}
   #{node['rbenv']['user_home']}/.rbenv/versions/#{node['jellyfish']['ruby_version']}/bin/gem install sqlite3 -v '1.3.10'
-# rubocop:enable Metrics/LineLength, Style/StringLiterals
   EOH
   creates "#{node['rbenv']['gems_directory']}/sqlite3-1.3.10"
 end
