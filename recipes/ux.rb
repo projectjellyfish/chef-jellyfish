@@ -46,7 +46,7 @@ bash 'unzip ux-master.zip' do
   cwd node['rbenv']['user_home']
   user node['jellyfish']['user']
   code <<-EOH
-  /usr/bin/unzip ux-master.zip; mv ux-master ux
+  /usr/bin/unzip ux-master.zip; /bin/mv ux-master ux
   EOH
   creates "#{node['rbenv']['user_home']}/ux"
 end
@@ -61,7 +61,7 @@ bash 'Install npm, forever and gulp production' do
   /usr/bin/gulp production
   /usr/bin/npm install forever  -g
   EOH
-  creates "#{node['rbenv']['user_home']}/ux/node_modules/winston"
+  creates "#{node['rbenv']['user_home']}/ux/node_modules"
 end
 
 log 'Set ENV settings'
