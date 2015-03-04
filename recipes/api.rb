@@ -111,15 +111,15 @@ git node['ruby_build']['prefix'] do
   group node['rbenv']['group']
 end
 
-log 'Installing Ruby 2.2.0'
-bash 'install ruby 2.2.0' do
+log "Installing Ruby #{node['jellyfish']['ruby_version']}"
+bash "install ruby #{node['jellyfish']['ruby_version']}" do
   cwd node['rbenv']['user_home']
   user node['rbenv']['user']
   code <<-EOH
    source #{node['rbenv']['user_home']}/.bash_profile
-   #{node['rbenv']['user_home']}/.rbenv/bin/rbenv install 2.2.0
+   #{node['rbenv']['exec']} install #{node['jellyfish']['ruby_version']}
   EOH
-  creates "#{node['rbenv']['user_home']}/.rbenv/versions/2.2.0"
+  creates node['rbenv']['installed']
 end
 
 log 'Install PostgreSQL'
@@ -139,27 +139,26 @@ yum_package 'postgresql93-devel'
 yum_package 'postgresql93-contrib'
 
 log 'Install gem pg'
-bash 'gem instal pg' do
+bash 'gem install pg' do
   cwd node['rbenv']['user_home']
   user node['rbenv']['user']
   code <<-EOH
    source #{node['rbenv']['user_home']}/.bash_profile
-   #{node['rbenv']['user_home']}/.rbenv/bin/rbenv global 2.2.0
-   #{node['rbenv']['user_home']}/.rbenv/versions/2.2.0/bin/gem install pg -v \
-   '0.17.1' -- --with-pg-config=/usr/pgsql-9.3/bin/pg_config
+   #{node['rbenv']['exec']} global #{node['jellyfish']['ruby_version']}
+   #{node['rbenv']['gem_exec']} install pg -v '0.17.1' \
+   -- --with-pg-config=/usr/pgsql-9.3/bin/pg_config
   EOH
   creates "#{node['rbenv']['gems_directory']}/pg-0.17.1"
 end
 
 log 'Install gem sqlite3'
-bash 'gem instal sqlite3' do
+bash 'gem install sqlite3' do
   cwd node['rbenv']['user_home']
   user node['rbenv']['user']
   code <<-EOH
   source #{node['rbenv']['user_home']}/.bash_profile
-  #{node['rbenv']['user_home']}/.rbenv/bin/rbenv global 2.2.0
-  #{node['rbenv']['user_home']}/.rbenv/versions/2.2.0/bin/gem install sqlite3 \
-  -v '1.3.10'
+   #{node['rbenv']['exec']} global #{node['jellyfish']['ruby_version']}
+   #{node['rbenv']['gem_exec']} install sqlite3 -v '1.3.10'
   EOH
   creates "#{node['rbenv']['gems_directory']}/sqlite3-1.3.10"
 end
@@ -178,8 +177,8 @@ bash 'gem instal bundler' do
   user 'root'
   code <<-EOH
   source #{node['rbenv']['user_home']}/.bash_profile
-  #{node['rbenv']['user_home']}/.rbenv/bin/rbenv global 2.2.0
-  #{node['rbenv']['user_home']}/.rbenv//versions/2.2.0/bin/gem install bundler
+  #{node['rbenv']['exec']} global #{node['jellyfish']['ruby_version']}
+  #{node['rbenv']['gem_exec']} install bundler
   EOH
   creates "#{node['rbenv']['gems_directory']}/bundler-1.8.3"
 end
