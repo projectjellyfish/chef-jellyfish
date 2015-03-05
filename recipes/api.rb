@@ -60,9 +60,9 @@ bash 'mv api-master api' do
    mv #{node['rbenv']['user_home']}/api-master #{node['rbenv']['user_home']}/api
   EOH
   creates "#{node['rbenv']['user_home']}/api"
-end.run_action(:run) 
+end.run_action(:run)
 
-ruby_version = File.read("/home/jellyfish/api/.ruby-version")
+ruby_version = File.read('/home/jellyfish/api/.ruby-version')
 log("#{ruby_version}")
 
 directory "#{node['rbenv']['user_home']}/.rbenv" do
