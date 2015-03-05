@@ -62,7 +62,8 @@ bash 'mv api-master api' do
   creates "#{node['rbenv']['user_home']}/api"
 end.run_action(:run)
 
-ruby_version = File.read('/home/jellyfish/api/.ruby-version')
+# ruby_version = File.read('/home/jellyfish/api/.ruby-version')
+ruby_version = File.read("#{node['jellyfish']['ruby_version_file']}")
 log("ruby version #{ruby_version}")
 
 directory "#{node['rbenv']['user_home']}/.rbenv" do
