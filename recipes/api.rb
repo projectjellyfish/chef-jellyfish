@@ -14,7 +14,7 @@ log 'Create jellyfish user'
 user node['jellyfish']['user'] do
   comment 'jellyfish user'
   shell '/bin/bash'
-end
+end.run_action(:create)
 
 log 'Install Pre-Requisites'
 yum_package 'git'
@@ -34,13 +34,15 @@ yum_package 'automake'
 yum_package 'libtool'
 yum_package 'bison'
 yum_package 'sqlite-devel'
-yum_package 'unzip'
+yum_package 'unzip' do
+  action :install
+end.run_action(:install)
 
 log 'Checkout the latest code'
 remote_file "#{node['rbenv']['user_home']}/api-master.zip" do
   source 'https://github.com/projectjellyfish/api/archive/master.zip'
   mode '0644'
-end
+end.run_action(:create)
 
 bash 'unzip api-master.zip' do
   cwd node['rbenv']['user_home']
@@ -49,7 +51,7 @@ bash 'unzip api-master.zip' do
   unzip api-master.zip
   EOH
   creates "#{node['rbenv']['user_home']}/api-master"
-end
+end.run_action(:run)
 
 bash 'mv api-master api' do
   cwd node['rbenv']['user_home']
@@ -58,7 +60,10 @@ bash 'mv api-master api' do
    mv #{node['rbenv']['user_home']}/api-master #{node['rbenv']['user_home']}/api
   EOH
   creates "#{node['rbenv']['user_home']}/api"
-end
+end.run_action(:run) 
+
+ruby_version = File.read("/home/jellyfish/api/.ruby-version")
+log("#{ruby_version}")
 
 directory "#{node['rbenv']['user_home']}/.rbenv" do
   owner node['jellyfish']['user']
@@ -111,13 +116,13 @@ git node['ruby_build']['prefix'] do
   group node['rbenv']['group']
 end
 
-log "Installing Ruby #{node['jellyfish']['ruby_version']}"
-bash "install ruby #{node['jellyfish']['ruby_version']}" do
+log "Installing Ruby #{ruby_version}"
+bash "install ruby #{ruby_version}" do
   cwd node['rbenv']['user_home']
   user node['rbenv']['user']
   code <<-EOH
    source #{node['rbenv']['user_home']}/.bash_profile
-   #{node['rbenv']['exec']} install #{node['jellyfish']['ruby_version']}
+   #{node['rbenv']['exec']} install #{ruby_version}
   EOH
   creates node['rbenv']['installed']
 end
@@ -144,7 +149,7 @@ bash 'gem install pg' do
   user node['rbenv']['user']
   code <<-EOH
    source #{node['rbenv']['user_home']}/.bash_profile
-   #{node['rbenv']['exec']} global #{node['jellyfish']['ruby_version']}
+   #{node['rbenv']['exec']} global #{ruby_version}
    #{node['rbenv']['gem_exec']} install pg -v '0.17.1' \
    -- --with-pg-config=/usr/pgsql-9.3/bin/pg_config
   EOH
@@ -157,7 +162,7 @@ bash 'gem install sqlite3' do
   user node['rbenv']['user']
   code <<-EOH
   source #{node['rbenv']['user_home']}/.bash_profile
-   #{node['rbenv']['exec']} global #{node['jellyfish']['ruby_version']}
+   #{node['rbenv']['exec']} global #{ruby_version}
    #{node['rbenv']['gem_exec']} install sqlite3 -v '1.3.10'
   EOH
   creates "#{node['rbenv']['gems_directory']}/sqlite3-1.3.10"
@@ -177,7 +182,7 @@ bash 'gem instal bundler' do
   user 'root'
   code <<-EOH
   source #{node['rbenv']['user_home']}/.bash_profile
-  #{node['rbenv']['exec']} global #{node['jellyfish']['ruby_version']}
+  #{node['rbenv']['exec']} global #{ruby_version}
   #{node['rbenv']['gem_exec']} install bundler
   EOH
   creates "#{node['rbenv']['gems_directory']}/bundler-1.8.3"

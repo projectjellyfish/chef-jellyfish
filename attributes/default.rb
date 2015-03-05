@@ -15,7 +15,7 @@ default['jellyfish']['ux']['app_config_js'] = 'localhost:3030'
 
 default['jellyfish']['user'] = 'jellyfish'
 default['jellyfish']['group'] = 'jellyfish'
-default['jellyfish']['ruby_version'] = '2.2.0'
+default['jellyfish']['ruby_version'] = '2.2.1'
 
 # PostgreSQL RPM repo file
 default['pgdg_rpm'] = 'http://yum.postgresql.org/9.3/redhat/rhel-6-x86_64/pgdg-redhat93-9.3-1.noarch.rpm'
