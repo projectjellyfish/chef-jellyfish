@@ -1,8 +1,8 @@
 # Enable the install of Jellyfish-API
-default['jellyfish']['api']['enabled'] = 'true'
+default['jellyfish']['api']['enabled'] = true
 
 # Enable the install of Jellyfish-UX
-default['jellyfish']['ux']['enabled'] = 'true'
+default['jellyfish']['ux']['enabled'] = true
 
 # The CORS for Jellyfish-API
 # Comma seperated list of host that you want to be able to access Jellyfish API
