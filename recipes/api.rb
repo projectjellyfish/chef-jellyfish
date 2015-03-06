@@ -62,11 +62,13 @@ bash 'mv api-master api' do
   creates "#{node['rbenv']['user_home']}/api"
 end.run_action(:run)
 
-ruby_version = File.read("#{node['rbenv']['user_home']}/api/.ruby-version")
+ruby_version = File.read("#{node['rbenv']['user_home']}/api/.ruby-version").strip
 log("ruby version #{ruby_version}")
 node.set['gd1'] = "#{node['rbenv']['root_path']}/version/#{ruby_version}"
 node.set['gd2'] = "/lib/ruby/gems/#{ruby_version}/gems"
 node.set['rbenv']['gem_directory'] = "#{node['gd1']}/#{node['gd2']}"
+node.set['gem_exec'] = "#{node['rbenv']['ver_dir']}/#{ruby_version}/bin/gem"
+node.set['rbenv']['installed'] = "#{node['rbenv']['ver_dir']}/#{ruby_version}"
 
 directory "#{node['rbenv']['user_home']}/.rbenv" do
   owner node['jellyfish']['user']
@@ -127,7 +129,7 @@ bash "install ruby #{ruby_version}" do
    source #{node['rbenv']['user_home']}/.bash_profile
    #{node['rbenv']['exec']} install #{ruby_version}
   EOH
-  #  creates node['rbenv']['installed']
+  creates node['rbenv']['installed']
 end
 
 log 'Install PostgreSQL'
@@ -153,7 +155,7 @@ bash 'gem install pg' do
   code <<-EOH
    source #{node['rbenv']['user_home']}/.bash_profile
    #{node['rbenv']['exec']} global #{ruby_version}
-   #{node['rbenv']['gem_exec']} install pg -v '0.17.1' \
+   #{node['gem_exec']} install pg -v '0.17.1' \
    -- --with-pg-config=/usr/pgsql-9.3/bin/pg_config
   EOH
   creates "#{node['rbenv']['gem_directory']}/pg-0.17.1"
@@ -166,7 +168,7 @@ bash 'gem install sqlite3' do
   code <<-EOH
   source #{node['rbenv']['user_home']}/.bash_profile
    #{node['rbenv']['exec']} global #{ruby_version}
-   #{node['rbenv']['gem_exec']} install sqlite3 -v '1.3.10'
+   #{node['gem_exec']} install sqlite3 -v '1.3.10'
   EOH
   creates "#{node['rbenv']['gem_directory']}/sqlite3-1.3.10"
 end
@@ -186,7 +188,7 @@ bash 'gem instal bundler' do
   code <<-EOH
   source #{node['rbenv']['user_home']}/.bash_profile
   #{node['rbenv']['exec']} global #{ruby_version}
-  #{node['rbenv']['gem_exec']} install bundler
+  #{node['gem_exec']} install bundler
   EOH
   creates "#{node['rbenv']['gem_directory']}/bundler-1.8.3"
 end
