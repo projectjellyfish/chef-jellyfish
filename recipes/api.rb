@@ -53,8 +53,8 @@ bash 'unzip api-master.zip' do
   creates "#{node['rbenv']['user_home']}/api"
 end.run_action(:run)
 
-node.set['rvp'] = "#{node['rbenv']['user_home']}/api/.ruby-version"
-ruby_version = File.read(#{node['rvp']}).strip
+node.set['rvp'] = "#{node['rbenv']['user_home']}/api"
+ruby_version = File.read("#{node['rvp']}/.ruby-version").strip
 log("ruby version #{ruby_version}")
 node.set['gd1'] = "#{node['rbenv']['root_path']}/version/#{ruby_version}"
 node.set['gd2'] = "/lib/ruby/gems/#{ruby_version}/gems"
