@@ -48,21 +48,13 @@ bash 'unzip api-master.zip' do
   cwd node['rbenv']['user_home']
   user node['jellyfish']['user']
   code <<-EOH
-  unzip api-master.zip
-  EOH
-  creates "#{node['rbenv']['user_home']}/api-master"
-end.run_action(:run)
-
-bash 'mv api-master api' do
-  cwd node['rbenv']['user_home']
-  user node['jellyfish']['user']
-  code <<-EOH
-   mv #{node['rbenv']['user_home']}/api-master #{node['rbenv']['user_home']}/api
+  /usr/bin/unzip api-master.zip && /bin/mv api-master api
   EOH
   creates "#{node['rbenv']['user_home']}/api"
 end.run_action(:run)
 
-ruby_version = File.read("#{node['rbenv']['user_home']}/api/.ruby-version").strip
+node.set['rvp'] = "#{node['rbenv']['user_home']}/api/.ruby-version"
+ruby_version = File.read("#{node['rvp']}").strip
 log("ruby version #{ruby_version}")
 node.set['gd1'] = "#{node['rbenv']['root_path']}/version/#{ruby_version}"
 node.set['gd2'] = "/lib/ruby/gems/#{ruby_version}/gems"
@@ -190,7 +182,7 @@ bash 'gem instal bundler' do
   #{node['rbenv']['exec']} global #{ruby_version}
   #{node['gem_exec']} install bundler
   EOH
-  creates "#{node['rbenv']['gem_directory']}/bundler-1.8.3"
+  creates "#{node['rbenv']['gem_directory']}/bundler-1.8.4"
 end
 
 log 'bundle api'

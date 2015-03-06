@@ -32,7 +32,6 @@ default['rbenv']['user_home']      = "/home/#{node['rbenv']['user']}"
 default['rbenv']['exec']           = "#{node['rbenv']['root_path']}/bin/rbenv"
 default['rbenv']['ver_dir']        = "#{node['rbenv']['root_path']}/versions"
 
-
 default['ruby_build']['git_repository'] = 'https://github.com/sstephenson/ruby-build.git'
 default['ruby_build']['git_revision']   = 'master'
 
