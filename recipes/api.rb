@@ -64,6 +64,9 @@ end.run_action(:run)
 
 ruby_version = File.read("#{node['rbenv']['user_home']}/api/.ruby-version")
 log("ruby version #{ruby_version}")
+node.set['gd1'] = "#{node['rbenv']['root_path']}/version/#{ruby_version}"
+node.set['gd2'] = "/lib/ruby/gems/#{ruby_version}/gems"
+node.set['rbenv']['gem_directory'] = "#{node['gd1']}/#{node['gd2']}"
 
 directory "#{node['rbenv']['user_home']}/.rbenv" do
   owner node['jellyfish']['user']
@@ -124,7 +127,7 @@ bash "install ruby #{ruby_version}" do
    source #{node['rbenv']['user_home']}/.bash_profile
    #{node['rbenv']['exec']} install #{ruby_version}
   EOH
-  creates node['rbenv']['installed']
+  #  creates node['rbenv']['installed']
 end
 
 log 'Install PostgreSQL'
@@ -153,7 +156,7 @@ bash 'gem install pg' do
    #{node['rbenv']['gem_exec']} install pg -v '0.17.1' \
    -- --with-pg-config=/usr/pgsql-9.3/bin/pg_config
   EOH
-  creates "#{node['rbenv']['gems_directory']}/pg-0.17.1"
+  creates "#{node['rbenv']['gem_directory']}/pg-0.17.1"
 end
 
 log 'Install gem sqlite3'
@@ -165,7 +168,7 @@ bash 'gem install sqlite3' do
    #{node['rbenv']['exec']} global #{ruby_version}
    #{node['rbenv']['gem_exec']} install sqlite3 -v '1.3.10'
   EOH
-  creates "#{node['rbenv']['gems_directory']}/sqlite3-1.3.10"
+  creates "#{node['rbenv']['gem_directory']}/sqlite3-1.3.10"
 end
 
 log 'Application.yml configuration file'
@@ -185,7 +188,7 @@ bash 'gem instal bundler' do
   #{node['rbenv']['exec']} global #{ruby_version}
   #{node['rbenv']['gem_exec']} install bundler
   EOH
-  creates "#{node['rbenv']['gems_directory']}/bundler-1.8.3"
+  creates "#{node['rbenv']['gem_directory']}/bundler-1.8.3"
 end
 
 log 'bundle api'
@@ -195,7 +198,7 @@ bash 'bundle api' do
   code <<-EOH
   source #{node['rbenv']['user_home']}/.bash_profile && bundle
   EOH
-  creates "#{node['rbenv']['gems_directory']}/xml-simple-1.1.4"
+  creates "#{node['rbenv']['gem_directory']}/xml-simple-1.1.4"
 end
 
 log 'Populate the database'

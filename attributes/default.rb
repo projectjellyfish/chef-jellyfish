@@ -33,7 +33,11 @@ default['rbenv']['user_home']      = "/home/#{node['rbenv']['user']}"
 default['rbenv']['exec']           = "#{node['rbenv']['root_path']}/bin/rbenv"
 # rubocop:disable Metrics/LineLength, Style/StringLiterals
 default['rbenv']['installed']      = "#{node['rbenv']['root_path']}/versions/#{node['jellyfish']['ruby_version']}"
+default['rbenv']['ver_dir']        = "#{node['rbenv']['root_path']}/versions/"
+
+
 default['rbenv']['gems_directory'] = "#{node['rbenv']['root_path']}/version/#{node['jellyfish']['ruby_version']}/lib/ruby/gems/#{node['jellyfish']['ruby_version']}/gems"
+
 default['rbenv']['gem_exec']       = "#{node['rbenv']['user_home']}/.rbenv/versions/#{node['jellyfish']['ruby_version']}/bin/gem"
 # rubocop:enable Metrics/LineLength, Style/StringLiterals
 
