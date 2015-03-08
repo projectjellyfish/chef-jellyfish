@@ -10,12 +10,6 @@ node.set['rbenv']['root']          = rbenv_root_path
 node.set['ruby_build']['prefix'] = "#{node['rbenv']['root']}/plugins/ruby_build"
 node.set['ruby_build']['bin_path'] = "#{node['ruby_build']['prefix']}/bin"
 
-log 'Create jellyfish user'
-user node['jellyfish']['user'] do
-  comment 'jellyfish user'
-  shell '/bin/bash'
-end.run_action(:create)
-
 log 'Install Pre-Requisites'
 yum_package 'git'
 yum_package 'gcc-c++'

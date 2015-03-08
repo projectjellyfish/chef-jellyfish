@@ -7,13 +7,6 @@
 # All rights reserved - Do Not Redistribute
 #
 
-log 'Create jellyfish user'
-
-user 'jellyfish' do
-  comment 'jellyfish user'
-  shell '/bin/bash'
-end
-
 log 'Install Pre-Requisites'
 yum_package 'git'
 yum_package 'gcc-c++'

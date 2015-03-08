@@ -6,6 +6,13 @@
 #
 # All rights reserved - Do Not Redistribute
 #
+
+user 'jellyfish' do
+  comment 'Project Jellyfish User'
+  system true
+  shell '/bin/false'
+end
+
 if node['jellyfish']['api']['enabled'] == true
   log 'jellyfish api enabled'
   include_recipe 'chef-jellyfish::api'
