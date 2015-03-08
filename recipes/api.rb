@@ -14,7 +14,7 @@ log 'Create jellyfish user'
 user node['jellyfish']['user'] do
   comment 'jellyfish user'
   shell '/bin/bash'
-end
+end.run_action(:create)
 
 log 'Install Pre-Requisites'
 yum_package 'git'
@@ -34,31 +34,33 @@ yum_package 'automake'
 yum_package 'libtool'
 yum_package 'bison'
 yum_package 'sqlite-devel'
-yum_package 'unzip'
+yum_package 'unzip' do
+  action :install
+end.run_action(:install)
 
 log 'Checkout the latest code'
 remote_file "#{node['rbenv']['user_home']}/api-master.zip" do
   source 'https://github.com/projectjellyfish/api/archive/master.zip'
   mode '0644'
-end
+end.run_action(:create)
 
 bash 'unzip api-master.zip' do
   cwd node['rbenv']['user_home']
   user node['jellyfish']['user']
   code <<-EOH
-  unzip api-master.zip
-  EOH
-  creates "#{node['rbenv']['user_home']}/api-master"
-end
-
-bash 'mv api-master api' do
-  cwd node['rbenv']['user_home']
-  user node['jellyfish']['user']
-  code <<-EOH
-   mv #{node['rbenv']['user_home']}/api-master #{node['rbenv']['user_home']}/api
+  /usr/bin/unzip api-master.zip && /bin/mv api-master api
   EOH
   creates "#{node['rbenv']['user_home']}/api"
-end
+end.run_action(:run)
+
+node.set['rvp'] = "#{node['rbenv']['user_home']}/api"
+ruby_version = File.read("#{node['rvp']}/.ruby-version").strip
+log("ruby version #{ruby_version}")
+node.set['gd1'] = "#{node['rbenv']['root_path']}/version/#{ruby_version}"
+node.set['gd2'] = "/lib/ruby/gems/#{ruby_version}/gems"
+node.set['rbenv']['gem_directory'] = "#{node['gd1']}/#{node['gd2']}"
+node.set['gem_exec'] = "#{node['rbenv']['ver_dir']}/#{ruby_version}/bin/gem"
+node.set['rbenv']['installed'] = "#{node['rbenv']['ver_dir']}/#{ruby_version}"
 
 directory "#{node['rbenv']['user_home']}/.rbenv" do
   owner node['jellyfish']['user']
@@ -111,13 +113,13 @@ git node['ruby_build']['prefix'] do
   group node['rbenv']['group']
 end
 
-log "Installing Ruby #{node['jellyfish']['ruby_version']}"
-bash "install ruby #{node['jellyfish']['ruby_version']}" do
+log "Installing Ruby #{ruby_version}"
+bash "install ruby #{ruby_version}" do
   cwd node['rbenv']['user_home']
   user node['rbenv']['user']
   code <<-EOH
    source #{node['rbenv']['user_home']}/.bash_profile
-   #{node['rbenv']['exec']} install #{node['jellyfish']['ruby_version']}
+   #{node['rbenv']['exec']} install #{ruby_version}
   EOH
   creates node['rbenv']['installed']
 end
@@ -144,11 +146,11 @@ bash 'gem install pg' do
   user node['rbenv']['user']
   code <<-EOH
    source #{node['rbenv']['user_home']}/.bash_profile
-   #{node['rbenv']['exec']} global #{node['jellyfish']['ruby_version']}
-   #{node['rbenv']['gem_exec']} install pg -v '0.17.1' \
+   #{node['rbenv']['exec']} global #{ruby_version}
+   #{node['gem_exec']} install pg -v '0.17.1' \
    -- --with-pg-config=/usr/pgsql-9.3/bin/pg_config
   EOH
-  creates "#{node['rbenv']['gems_directory']}/pg-0.17.1"
+  creates "#{node['rbenv']['gem_directory']}/pg-0.17.1"
 end
 
 log 'Install gem sqlite3'
@@ -157,10 +159,10 @@ bash 'gem install sqlite3' do
   user node['rbenv']['user']
   code <<-EOH
   source #{node['rbenv']['user_home']}/.bash_profile
-   #{node['rbenv']['exec']} global #{node['jellyfish']['ruby_version']}
-   #{node['rbenv']['gem_exec']} install sqlite3 -v '1.3.10'
+   #{node['rbenv']['exec']} global #{ruby_version}
+   #{node['gem_exec']} install sqlite3 -v '1.3.10'
   EOH
-  creates "#{node['rbenv']['gems_directory']}/sqlite3-1.3.10"
+  creates "#{node['rbenv']['gem_directory']}/sqlite3-1.3.10"
 end
 
 log 'Application.yml configuration file'
@@ -177,10 +179,10 @@ bash 'gem instal bundler' do
   user 'root'
   code <<-EOH
   source #{node['rbenv']['user_home']}/.bash_profile
-  #{node['rbenv']['exec']} global #{node['jellyfish']['ruby_version']}
-  #{node['rbenv']['gem_exec']} install bundler
+  #{node['rbenv']['exec']} global #{ruby_version}
+  #{node['gem_exec']} install bundler
   EOH
-  creates "#{node['rbenv']['gems_directory']}/bundler-1.8.3"
+  creates "#{node['rbenv']['gem_directory']}/bundler-1.8.4"
 end
 
 log 'bundle api'
@@ -190,7 +192,7 @@ bash 'bundle api' do
   code <<-EOH
   source #{node['rbenv']['user_home']}/.bash_profile && bundle
   EOH
-  creates "#{node['rbenv']['gems_directory']}/xml-simple-1.1.4"
+  creates "#{node['rbenv']['gem_directory']}/xml-simple-1.1.4"
 end
 
 log 'Populate the database'
