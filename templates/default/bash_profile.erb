@@ -11,4 +11,4 @@ export PATH="/home/jellyfish/.rbenv/shims:/home/jellyfish/.rbenv/bin:$PATH"
 eval "$(rbenv init -)"
 
 export DATABASE_URL=postgres://<%= @dbuser %>:<%= @dbpasswd %>@localhost:5432/<%= @dbname %>
-export RAILS_ENV=production
+export RAILS_ENV=<%= @rails_env %>

@@ -22,7 +22,9 @@ Jellyfish
 
 
 ## Getting started
+````
 mkdir -p ~/chef-repo/cookbooks
 git clone https://github.com/projectjellyfish/chef-jellyfish.git
 curl -L https://www.opscode.com/chef/install.sh | bash
 sudo chef-client --local-mode --runlist 'recipe[chef-jellyfish]'
+````

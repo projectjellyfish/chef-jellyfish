@@ -16,3 +16,6 @@ gem 'berkshelf'
 
 gem "test-kitchen"
 gem "kitchen-vagrant"
+
+# For easy publishing to Supermarket
+gem 'stove'

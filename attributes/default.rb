@@ -2,16 +2,19 @@
 # Which version of postgres:
 default['postgresql']['version'] = "9.4"
 
-#load sample data?
+# Load sample data?
 default['sampledata'] = true
 
-#Our random api secret key
+# Our random api secret key
 default['rdkey'] = 'd2924512f097d80a1c33cfa416c01cfe93b90912b83ad8dd254205e83915979e3bb08d38cad2e43dcd6db2f4aea53d8c6c41545dc6daaa50dbca9cc7f2612342'
 
-#Postgres Details:
+# The Rails Enviroment to use
+default['rails_env'] = 'production'
+
+# Postgres Details:
 default['postgresql']['jellyfish_dbpass'] = 'myPassword'
-default['postgresql']['jellyfish_db']  = 'jellyfish_production'
-default['postgresql']['jellyfish_user'] = 'jellyfish'
+default['postgresql']['jellyfish_db']     = 'jellyfish_production'
+default['postgresql']['jellyfish_user']   = 'jellyfish'
 
 # -- End Config Vars --
 # These are the repo urls for Postgres,

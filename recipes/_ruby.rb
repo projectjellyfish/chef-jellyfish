@@ -49,7 +49,8 @@ template '/home/jellyfish/.bash_profile' do
   variables({
     'dbuser' => node.default['postgresql']['jellyfish_user'],
     'dbpasswd' =>node.default['postgresql']['jellyfish_dbpass'],
-    'dbname' => node.default['postgresql']['jellyfish_db']
+    'dbname' => node.default['postgresql']['jellyfish_db'],
+    'dbname' => node.default['rails_env']
   })
 end
 
