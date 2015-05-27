@@ -1,39 +1,51 @@
-# Enable the install of Jellyfish-API
-default['jellyfish']['api']['enabled'] = true
 
-# Enable the install of Jellyfish-UX
-default['jellyfish']['ux']['enabled'] = true
+# Which version of postgres:
+default['postgresql']['version'] = "9.4"
 
-# The CORS for Jellyfish-API
-# Comma seperated list of host that you want to be able to access Jellyfish API
-default['jellyfish']['api']['cors_allow_origin'] = 'localhost:*'
+#load sample data?
+default['sampledata'] = true
 
-# The URL of the Jellyfish-API that UX should be using
-# Single FQDN: https://some-host.company.com:port (if port is different that
-# the standard port)
-default['jellyfish']['ux']['app_config_js'] = 'localhost:3030'
+#Our random api secret key
+default['rdkey'] = 'd2924512f097d80a1c33cfa416c01cfe93b90912b83ad8dd254205e83915979e3bb08d38cad2e43dcd6db2f4aea53d8c6c41545dc6daaa50dbca9cc7f2612342'
 
-default['jellyfish']['user'] = 'jellyfish'
-default['jellyfish']['group'] = 'jellyfish'
+#Postgres Details:
+default['postgresql']['jellyfish_dbpass'] = 'myPassword'
+default['postgresql']['jellyfish_db']  = 'jellyfish_production'
+default['postgresql']['jellyfish_user'] = 'jellyfish'
 
-# PostgreSQL RPM repo file
-default['pgdg_rpm'] = 'http://yum.postgresql.org/9.3/redhat/rhel-6-x86_64/pgdg-redhat93-9.3-1.noarch.rpm'
-
-# rbenv variables
-default['rbenv']['user']           = 'jellyfish'
-default['rbenv']['group']          = 'jellyfish'
-default['rbenv']['manage_home']    = true
-default['rbenv']['group_users']    = []
-default['rbenv']['git_repository'] = 'https://github.com/sstephenson/rbenv.git'
-default['rbenv']['git_revision']   = 'master'
-default['rbenv']['install_prefix'] = '/home/jellyfish'
-default['rbenv']['root_path']      = "#{node['rbenv']['install_prefix']}/.rbenv"
-default['rbenv']['user_home']      = "/home/#{node['rbenv']['user']}"
-default['rbenv']['exec']           = "#{node['rbenv']['root_path']}/bin/rbenv"
-default['rbenv']['ver_dir']        = "#{node['rbenv']['root_path']}/versions"
-
-default['ruby_build']['git_repository'] = 'https://github.com/sstephenson/ruby-build.git'
-default['ruby_build']['git_revision']   = 'master'
-
-default['rbenv_vars']['git_repository'] = 'https://github.com/sstephenson/rbenv-vars.git'
-default['rbenv_vars']['git_revision']   = 'master'
+# -- End Config Vars --
+# These are the repo urls for Postgres,
+# from here: http://yum.postgresql.org/repopackages.php#pg94
+#
+# if need different version or platform, add here.
+default['postgresql']['pgdg']['repo_rpm_url'] = {
+  "9.4" => {
+    "amazon" => {
+      "2014" => {
+        "i386" => "http://yum.postgresql.org/9.4/redhat/rhel-6-i386/pgdg-redhat94-9.4-1.noarch.rpm",
+        "x86_64" => "http://yum.postgresql.org/9.4/redhat/rhel-6-x86_64/pgdg-redhat94-9.4-1.noarch.rpm"
+      },
+      "2013" => {
+        "i386" => "http://yum.postgresql.org/9.4/redhat/rhel-6-i386/pgdg-redhat94-9.4-1.noarch.rpm",
+        "x86_64" => "http://yum.postgresql.org/9.4/redhat/rhel-6-x86_64/pgdg-redhat94-9.4-1.noarch.rpm"
+      }
+    },
+    "redhat" => {
+      "7" => {
+        "x86_64" => "http://yum.postgresql.org/9.4/redhat/rhel-7-x86_64/pgdg-redhat94-9.4-1.noarch.rpm"
+      },
+      "6" => {
+        "x86_64" => "http://yum.postgresql.org/9.4/redhat/rhel-6-x86_64/pgdg-redhat94-9.4-1.noarch.rpm"
+      },
+    },
+    "centos" => {
+      "7" => {
+        "x86_64" => "http://yum.postgresql.org/9.4/redhat/rhel-7-x86_64/pgdg-centos94-9.4-1.noarch.rpm"
+      },
+      "6" => {
+        "i386" => "http://yum.postgresql.org/9.4/redhat/rhel-6-i386/pgdg-centos94-9.4-1.noarch.rpm",
+        "x86_64" => "http://yum.postgresql.org/9.4/redhat/rhel-6-x86_64/pgdg-centos94-9.4-1.noarch.rpm"
+      }
+    }
+  }
+}

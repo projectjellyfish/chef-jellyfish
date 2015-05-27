@@ -1,13 +1,10 @@
-name 'chef-jellyfish'
-maintainer 'Booz Allen Hamilton'
-maintainer_email 'jellyfishopensource@bah.com'
-license 'Apache 2.0'
-description 'Installs/Configures Jellyfish'
-long_description IO.read(File.join(File.dirname(__FILE__), 'README.md'))
-version '1.0.0'
+name             'chef-jellyfish'
+maintainer       'Kevin Kingsbury'
+maintainer_email 'kingsbury_kevin@bah.com'
+license          'MIT'
+description      'Installs/Configures Jellyfish via a Chef Cookbook'
+long_description 'Installs/Configures Jellyfish via a Chef Cookbook'
+version          '0.1.0'
 
-supports 'rhel'
-supports 'centos'
-
-depends 'rbenv'
-depends 'nginx'
+supports         'centos', '~> 6.0'
+supports         'rhel', '~> 6.0'

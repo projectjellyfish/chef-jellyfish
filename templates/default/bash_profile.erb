@@ -7,14 +7,8 @@ fi
 
 # User specific environment and startup programs
 
-PATH=$PATH:$HOME/bin
-
-export PATH
-
-
-
-export RBENV_ROOT=/home/jellyfish/.rbenv
-export PATH=$RBENV_ROOT/bin:<%= @ruby_build_bin_path %>:$PATH
-
-source $RBENV_ROOT/completions/rbenv.bash
+export PATH="/home/jellyfish/.rbenv/shims:/home/jellyfish/.rbenv/bin:$PATH"
 eval "$(rbenv init -)"
+
+export DATABASE_URL=postgres://<%= @dbuser %>:<%= @dbpasswd %>@localhost:5432/<%= @dbname %>
+export RAILS_ENV=production
