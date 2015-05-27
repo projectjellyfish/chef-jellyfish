@@ -2,6 +2,9 @@ GEM
   remote: https://rubygems.org/
   specs:
     addressable (2.3.8)
+    ast (2.0.0)
+    astrolabe (1.3.0)
+      parser (>= 2.2.0.pre.3, < 3.0)
     berkshelf (3.2.4)
       addressable (~> 2.3.4)
       berkshelf-api-client (~> 1.2)
@@ -45,6 +48,16 @@ GEM
     faraday (0.9.1)
       multipart-post (>= 1.2, < 3)
     ffi (1.9.8)
+    foodcritic (4.0.0)
+      erubis
+      gherkin (~> 2.11)
+      nokogiri (~> 1.5)
+      rake
+      rufus-lru (~> 1.0)
+      treetop (~> 1.4)
+      yajl-ruby (~> 1.1)
+    gherkin (2.12.2)
+      multi_json (~> 1.3)
     hashie (2.1.2)
     hitimes (1.2.2)
     json (1.8.2)
@@ -52,19 +65,29 @@ GEM
       test-kitchen (~> 1.4)
     logify (0.2.0)
     mime-types (2.6.1)
+    mini_portile (0.6.2)
     minitar (0.5.4)
     mixlib-authentication (1.3.0)
       mixlib-log
     mixlib-log (1.6.0)
     mixlib-shellout (2.1.0)
+    multi_json (1.11.0)
     multipart-post (2.0.0)
     net-http-persistent (2.9.4)
     net-scp (1.2.1)
       net-ssh (>= 2.6.5)
     net-ssh (2.9.2)
     nio4r (1.1.0)
+    nokogiri (1.6.6.2)
+      mini_portile (~> 0.6.0)
     octokit (3.8.0)
       sawyer (~> 0.6.0, >= 0.5.3)
+    parser (2.2.2.5)
+      ast (>= 1.1, < 3.0)
+    polyglot (0.3.5)
+    powerpack (0.1.1)
+    rainbow (2.0.0)
+    rake (10.4.2)
     retryable (2.0.1)
     ridley (4.1.2)
       addressable
@@ -83,6 +106,14 @@ GEM
       retryable (>= 2.0.0)
       semverse (~> 1.1)
       varia_model (~> 0.4)
+    rubocop (0.31.0)
+      astrolabe (~> 1.3)
+      parser (>= 2.2.2.1, < 3.0)
+      powerpack (~> 0.1)
+      rainbow (>= 1.99.1, < 3.0)
+      ruby-progressbar (~> 1.4)
+    ruby-progressbar (1.7.5)
+    rufus-lru (1.0.5)
     safe_yaml (1.0.4)
     sawyer (0.6.0)
       addressable (~> 2.3.5)
@@ -103,15 +134,21 @@ GEM
     thor (0.19.1)
     timers (4.0.1)
       hitimes
+    treetop (1.6.2)
+      polyglot (~> 0.3)
     varia_model (0.4.0)
       buff-extensions (~> 1.0)
       hashie (>= 2.0.2, < 3.0.0)
+    yajl-ruby (1.2.1)
 
 PLATFORMS
   ruby
 
 DEPENDENCIES
   berkshelf
+  foodcritic
   kitchen-vagrant
+  rake
+  rubocop
   stove
   test-kitchen

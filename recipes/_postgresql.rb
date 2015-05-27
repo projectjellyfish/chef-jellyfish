@@ -2,7 +2,7 @@
 # Cookbook Name:: chef-jellyfish
 # Recipe:: _postgresql
 #
-# Copyright (c) 2015 Kevin M Kingsbury, All Rights Reserved.
+# Copyright (c) 2015 Booz Allen Hamilton, All Rights Reserved.
 
 
 #exclude=postgresql*

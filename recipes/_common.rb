@@ -2,7 +2,8 @@
 # Cookbook Name:: chef-jellyfish
 # Recipe:: _common
 #
-# Copyright (c) 2015 Kevin M Kingsbury, All Rights Reserved.
+# Copyright (c) 2015 Booz Allen Hamilton, All Rights Reserved.
+
 require 'pp'
 
 user 'jellyfish' do

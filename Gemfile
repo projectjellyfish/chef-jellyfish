@@ -19,3 +19,7 @@ gem "kitchen-vagrant"
 
 # For easy publishing to Supermarket
 gem 'stove'
+
+gem 'rake'
+gem 'foodcritic'
+gem 'rubocop'

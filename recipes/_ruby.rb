@@ -2,11 +2,7 @@
 # Cookbook Name:: chef-jellyfish
 # Recipe:: _ruby
 #
-# Copyright (c) 2015 Kevin M Kingsbury, All Rights Reserved.
-#node.normal['rbenv']['root']   = "/home/jellyfish/.rbenv"
-#node.normal['rbenv']['user'] = "jellyfish"
-#node.normal['rbenv']['group'] = "users"
-
+# Copyright (c) 2015 Booz Allen Hamilton, All Rights Reserved.
 
 directory "/home/jellyfish/.rbenv" do
   owner 'jellyfish'
@@ -23,10 +19,6 @@ git "/home/jellyfish/.rbenv" do
   action :checkout
 end
 
-
-
-
-
 directory "/home/jellyfish/.rbenv/plugins/ruby-build" do
   owner 'jellyfish'
   group 'users'
@@ -35,7 +27,6 @@ directory "/home/jellyfish/.rbenv/plugins/ruby-build" do
   recursive true
 end
 
-#git clone https://github.com/sstephenson/ruby-build.git ~/.rbenv/plugins/ruby-build
 git "/home/jellyfish/.rbenv/plugins/ruby-build" do
   repository "https://github.com/sstephenson/ruby-build.git"
   reference "master"
@@ -50,15 +41,15 @@ template '/home/jellyfish/.bash_profile' do
     'dbuser' => node.default['postgresql']['jellyfish_user'],
     'dbpasswd' =>node.default['postgresql']['jellyfish_dbpass'],
     'dbname' => node.default['postgresql']['jellyfish_db'],
-    'dbname' => node.default['rails_env']
+    'rails_env' => node.default['rails_env']
   })
 end
 
-#wrap in Ruby block because file doesn't exist at compile, will at execution.
+# wrap in Ruby block because file doesn't exist at compile, will at execution.
 rubyversion = 0
 ruby_block "Get Ruby version" do
   block do
-    #node.normal['rbversion'] = File.read("/home/jellyfish/api/.ruby-version")
+    # node.normal['rbversion'] = File.read("/home/jellyfish/api/.ruby-version")
     if File.exists?("/home/jellyfish/api/.ruby-version")
       # Read the CWM version from file.
       f = File.open("/home/jellyfish/api/.ruby-version")
@@ -115,7 +106,7 @@ bash "bundle install" do
 end
 
 
-#make .env file: need this at execute, does not exist at compile.
+# make .env file: need this at execute, does not exist at compile.
 execute "copy" do
   command "cp /home/jellyfish/api/.env.example /home/jellyfish/api/.env"
   user 'jellyfish'

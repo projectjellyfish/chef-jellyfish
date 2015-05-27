@@ -2,7 +2,7 @@
 # Cookbook Name:: chef-jellyfish
 # Recipe:: _nginx
 #
-# Copyright (c) 2015 Kevin M Kingsbury, All Rights Reserved.
+# Copyright (c) 2015 Booz Allen Hamilton, All Rights Reserved.
 
 if node['platform'] == 'centos' && node['platform_version'].to_f >= 6.0 && node['platform_version'].to_f < 7.0
   package 'epel-release'
