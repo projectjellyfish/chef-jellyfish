@@ -8,6 +8,6 @@ git "#{node.default['jellyfishuser']['home']}/api" do
   repository 'https://github.com/projectjellyfish/api.git'
   reference 'master'
   user node.default['jellyfishuser']['user']
-  group 'users'
+  group node.default['jellyfishuser']['group']
   action 'checkout'
 end

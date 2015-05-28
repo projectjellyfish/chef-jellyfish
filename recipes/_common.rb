@@ -12,6 +12,7 @@ user node.default['jellyfishuser']['user'] do
   system false
   shell '/bin/bash'
   home node.default['jellyfishuser']['home']
+  gid node.default['jellyfishuser']['group']
   action :create
 end
 

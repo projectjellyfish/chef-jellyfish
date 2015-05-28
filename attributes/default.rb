@@ -12,7 +12,8 @@ default['rdkey'] = 'd2924512f097d80a1c33cfa416c01cfe93b90912b83ad8dd254205e83915
 default['rails_env'] = 'production'
 
 default['jellyfishuser']['user'] = 'jellyfish'
-default['jellyfishuser']['home'] = "/home/#{node.default['jellyfishuser']['user']}"
+default['jellyfishuser']['home'] = '/home/jellyfish'
+default['jellyfishuser']['group'] = 'users'
 
 # Postgres Details:
 default['postgresql']['jellyfish_dbpass'] = 'myPassword'
