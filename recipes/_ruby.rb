@@ -37,7 +37,7 @@ end
 
 log 'These next steps will take a long time.'
 bash 'rbenv-install' do
-  code "source #{node.default['jellyfishuser']['home']}/.bash_profile; rbenv install \"\$\(cat #{node.default['ruby']['version']}"
+  code "source #{node.default['jellyfishuser']['home']}/.bash_profile; rbenv install #{node.default['ruby']['version']}"
   user node.default['jellyfishuser']['user']
   environment 'HOME' => node.default['jellyfishuser']['home'], 'USER' => node.default['jellyfishuser']['user']
   not_if { ::File.exist?("#{node.default['jellyfishuser']['home']}/.rbenv/versions/#{node.default['ruby']['version']}") }
