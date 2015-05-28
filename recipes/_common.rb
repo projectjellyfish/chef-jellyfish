@@ -23,7 +23,8 @@ template "#{node.default['jellyfishuser']['home']}/.bash_profile" do
     'dbpasswd' => node.default['postgresql']['jellyfish_dbpass'],
     'dbname' => node.default['postgresql']['jellyfish_db'],
     'rails_env' => node.default['rails_env'],
-    'home' => node.default['jellyfishuser']['home']
+    'home' => node.default['jellyfishuser']['home'],
+    'devise_secret_key' => node.default['rdkey']
   )
 end
 

@@ -2,7 +2,6 @@
 # What version of Ruby do we need to install?
 default['ruby']['version'] = '2.2.2'
 
-
 # Which version of postgres:
 default['postgresql']['version'] = '9.4'
 
@@ -10,6 +9,7 @@ default['postgresql']['version'] = '9.4'
 default['sampledata'] = true
 
 # Our random api secret key
+# @todo this should be randomly generated on run (use OpenSSL cookbook to do this)
 default['rdkey'] = 'd2924512f097d80a1c33cfa416c01cfe93b90912b83ad8dd254205e83915979e3bb08d38cad2e43dcd6db2f4aea53d8c6c41545dc6daaa50dbca9cc7f2612342'
 
 # The Rails Enviroment to use
@@ -23,6 +23,8 @@ default['jellyfishuser']['group'] = 'users'
 default['postgresql']['jellyfish_dbpass'] = 'myPassword'
 default['postgresql']['jellyfish_db']     = 'jellyfish_production'
 default['postgresql']['jellyfish_user']   = 'jellyfish'
+
+# @todo: Ability to use an external PostgreSQL server
 
 # -- End Config Vars --
 # These are the repo urls for Postgres,

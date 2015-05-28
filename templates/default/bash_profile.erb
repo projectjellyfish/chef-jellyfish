@@ -12,3 +12,4 @@ eval "$(rbenv init -)"
 
 export DATABASE_URL=postgres://<%= @dbuser %>:<%= @dbpasswd %>@localhost:5432/<%= @dbname %>
 export RAILS_ENV=<%= @rails_env %>
+export DEVISE_SECRET_KEY=<%= @devise_secret_key %>

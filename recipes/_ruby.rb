@@ -63,6 +63,7 @@ bash 'gem-install-pg' do
   environment 'HOME' => node.default['jellyfishuser']['home'], 'USER' => node.default['jellyfishuser']['user']
 end
 
+# @todo this should be in the _jellyfish.rb recipe
 bash 'bundle install' do
   cwd "#{node.default['jellyfishuser']['home']}/api"
   code "source #{node.default['jellyfishuser']['home']}/.bash_profile; bundle install"
@@ -71,24 +72,24 @@ bash 'bundle install' do
 end
 
 # make .env file: need this at execute, does not exist at compile.
-execute 'copy' do
-  command "cp #{node.default['jellyfishuser']['home']}/api/.env.example #{node.default['jellyfishuser']['home']}/api/.env"
-  user node.default['jellyfishuser']['user']
-  environment 'HOME' => node.default['jellyfishuser']['home'], 'USER' => node.default['jellyfishuser']['user']
-  not_if { ::File.exist?("#{node.default['jellyfishuser']['home']}/api/.env") }
-end
+# execute 'copy' do
+#  command "cp #{node.default['jellyfishuser']['home']}/api/.env.example #{node.default['jellyfishuser']['home']}/api/.env"
+#  user node.default['jellyfishuser']['user']
+#  environment 'HOME' => node.default['jellyfishuser']['home'], 'USER' => node.default['jellyfishuser']['user']
+#  not_if { ::File.exist?("#{node.default['jellyfishuser']['home']}/api/.env") }
+# end
 
-execute 'secretkey' do
-  command "sed -i.bak 's/^#\sDEVISE_SECRET_KEY\=.*/DEVISE_SECRET_KEY=#{node.default['rdkey']}/' #{node.default['jellyfishuser']['home']}/api/.env"
-  only_if "grep '# DEVISE_SECRET_KEY=\\|Devise Secret Key\\|' #{node.default['jellyfishuser']['home']}/api/.env"
-end
-execute 'dbstring' do
-  command "sed -i.bak 's/^DATABASE_URL\=.*/DATABASE_URL=postgres:\\/\\/#{node.default['postgresql']['jellyfish_user']}:#{node.default['postgresql']['jellyfish_dbpass']}@localhost:5432\\/#{node.default['postgresql']['jellyfish_db']}/' #{node.default['jellyfishuser']['home']}/api/.env"
-  only_if "grep 'DATABASE_URL=postgres:\\/\\/#{node.default['postgresql']['jellyfish_user']}:#{node.default['postgresql']['jellyfish_dbpass']}@localhost:5432\\/#{node.default['postgresql']['jellyfish_db']}' #{node.default['jellyfishuser']['home']}/api/.env"
-end
+# execute 'secretkey' do
+#  command "sed -i.bak 's/^#\sDEVISE_SECRET_KEY\=.*/DEVISE_SECRET_KEY=#{node.default['rdkey']}/' #{node.default['jellyfishuser']['home']}/api/.env"
+#  only_if "grep '# DEVISE_SECRET_KEY=\\|Devise Secret Key\\|' #{node.default['jellyfishuser']['home']}/api/.env"
+# end
+# execute 'dbstring' do
+#  command "sed -i.bak 's/^DATABASE_URL\=.*/DATABASE_URL=postgres:\\/\\/#{node.default['postgresql']['jellyfish_user']}:#{node.default['postgresql']['jellyfish_dbpass']}@localhost:5432\\/#{node.default['postgresql']['jellyfish_db']}/' #{node.default['jellyfishuser']['home']}/api/.env"
+#  only_if "grep 'DATABASE_URL=postgres:\\/\\/#{node.default['postgresql']['jellyfish_user']}:#{node.default['postgresql']['jellyfish_dbpass']}@localhost:5432\\/#{node.default['postgresql']['jellyfish_db']}' #{node.default['jellyfishuser']['home']}/api/.env"
+# end
 
 # DB Migrate
-
+# @todo all the DB: migration, seed stuff needs to be in _jellyfish.rb
 bash 'rake db:migrate' do
   code "source #{node.default['jellyfishuser']['home']}/.bash_profile; rake db:migrate"
   cwd "#{node.default['jellyfishuser']['home']}/api"
