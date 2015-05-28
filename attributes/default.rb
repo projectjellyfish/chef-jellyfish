@@ -1,4 +1,8 @@
 
+# What version of Ruby do we need to install?
+default['ruby']['version'] = '2.2.2'
+
+
 # Which version of postgres:
 default['postgresql']['version'] = '9.4'
 

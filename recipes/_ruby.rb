@@ -35,37 +35,16 @@ git "#{node.default['jellyfishuser']['home']}/.rbenv/plugins/ruby-build" do
   action :checkout
 end
 
-# wrap in Ruby block because file doesn't exist at compile, will at execution.
-rubyversion = 0
-ruby_block 'Get Ruby version' do
-  block do
-    if File.exist?("#{node.default['jellyfishuser']['home']}/api/.ruby-version")
-      f = File.open("#{node.default['jellyfishuser']['home']}/api/.ruby-version")
-
-      f.each {|line|
-        if mymatch = /(\d+\.\d+\.\d+)/.match(line)
-          node.normal['rbversion'] = mymatch[1]
-          rubyversion = mymatch[1]
-          pp "ruby version: #{mymatch[1]}"
-          break
-        end
-      }
-      f.close
-
-    end
-  end
-end
-
 log 'These next steps will take a long time.'
 bash 'rbenv-install' do
-  code "source #{node.default['jellyfishuser']['home']}/.bash_profile; rbenv install \"\$\(cat #{node.default['jellyfishuser']['home']}/api/.ruby-version\)\""
+  code "source #{node.default['jellyfishuser']['home']}/.bash_profile; rbenv install \"\$\(cat #{node.default['ruby']['version']}"
   user node.default['jellyfishuser']['user']
   environment 'HOME' => node.default['jellyfishuser']['home'], 'USER' => node.default['jellyfishuser']['user']
-  not_if { ::File.exist?("#{node.default['jellyfishuser']['home']}/.rbenv/versions/#{rubyversion}") }
+  not_if { ::File.exist?("#{node.default['jellyfishuser']['home']}/.rbenv/versions/#{node.default['ruby']['version']}") }
 end
 
 bash 'rbenv-global' do
-  code "source #{node.default['jellyfishuser']['home']}/.bash_profile; rbenv global \"\$\(cat node.default['jellyfishuser']['home']/api/.ruby-version\)\""
+  code "source #{node.default['jellyfishuser']['home']}/.bash_profile; rbenv global #{node.default['ruby']['version']}"
   user node.default['jellyfishuser']['user']
   environment 'HOME' => node.default['jellyfishuser']['home'], 'USER' => node.default['jellyfishuser']['user']
 end
