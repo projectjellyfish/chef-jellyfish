@@ -22,7 +22,7 @@ include_recipe 'chef-jellyfish::_nginx'
 bash 'start api' do
   code "source #{node.default['jellyfishuser']['home']}/.bash_profile; bundle exec puma -e development -d -b unix:///tmp/myapp_puma.sock"
   user node.default['jellyfishuser']['user']
-  environment 'HOME' => node.default['jellyfishuser']['home'], 'USER' => node.default['jellyfishuser']['user'], 'RAILS_ENV' => 'production', 'RBENV_SHELL' => 'bash'
+  environment 'HOME' => node.default['jellyfishuser']['home'], 'USER' => node.default['jellyfishuser']['user'], 'RAILS_ENV' => node.default['rails_env'], 'RBENV_SHELL' => 'bash'
   cwd "#{node.default['jellyfishuser']['home']}/api"
 end
 

@@ -113,7 +113,7 @@ end
 bash 'rake db:migrate' do
   code "source #{node.default['jellyfishuser']['home']}/.bash_profile; rake db:migrate"
   cwd "#{node.default['jellyfishuser']['home']}/api"
-  environment 'HOME' => node.default['jellyfishuser']['home'], 'USER' => node.default['jellyfishuser']['user'], 'RAILS_ENV' => 'production', 'RBENV_SHELL' => 'bash'
+  environment 'HOME' => node.default['jellyfishuser']['home'], 'USER' => node.default['jellyfishuser']['user'], 'RAILS_ENV' => node.default['rails_env'], 'RBENV_SHELL' => 'bash'
   user node.default['jellyfishuser']['user']
 end
 
@@ -121,7 +121,7 @@ bash 'rake db:seed' do
   code "source #{node.default['jellyfishuser']['home']}/.bash_profile;  rake db:seed"
   cwd "#{node.default['jellyfishuser']['home']}/api"
   user node.default['jellyfishuser']['user']
-  environment 'HOME' => node.default['jellyfishuser']['home'], 'USER' => node.default['jellyfishuser']['user'], 'RAILS_ENV' => 'production', 'RBENV_SHELL' => 'bash'
+  environment 'HOME' => node.default['jellyfishuser']['home'], 'USER' => node.default['jellyfishuser']['user'], 'RAILS_ENV' => node.default['rails_env'], 'RBENV_SHELL' => 'bash'
 end
 
 if node.default['sampledata'] == true
@@ -130,7 +130,7 @@ if node.default['sampledata'] == true
     code "source #{node.default['jellyfishuser']['home']}/.bash_profile;  rake sample:demo"
     user node.default['jellyfishuser']['user']
     cwd "#{node.default['jellyfishuser']['home']}/api"
-    environment 'HOME' => node.default['jellyfishuser']['home'], 'USER' => 'jellyfish', 'RAILS_ENV' => 'production', 'RBENV_SHELL' => 'bash'
+    environment 'HOME' => node.default['jellyfishuser']['home'], 'USER' => 'jellyfish', 'RAILS_ENV' => node.default['rails_env'], 'RBENV_SHELL' => 'bash'
   end
 else
   log 'Skipping Sample Data'
