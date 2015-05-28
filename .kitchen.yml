@@ -1,0 +1,23 @@
+---
+driver:
+  name: vagrant
+
+provisioner:
+  name: chef_solo
+
+platforms:
+  #- name: ubuntu-12.04
+  - name: centos-6.4
+  - name: centos-7.0
+    driver:
+    box: centos-7.0
+    box_url: http://opscode-vm-bento.s3.amazonaws.com/vagrant/virtualbox/opscode_centos-7.0_chef-provisionerless.box
+    #customize:
+        #cpus: 1
+        #memory: 256
+
+suites:
+  - name: default
+    run_list:
+      - recipe[chef-jellyfish::default]
+    attributes:

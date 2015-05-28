@@ -7,7 +7,7 @@ fi
 
 # User specific environment and startup programs
 
-export PATH="/home/jellyfish/.rbenv/shims:/home/jellyfish/.rbenv/bin:$PATH"
+export PATH="<%= @home %>/.rbenv/shims:<%= @home %>/.rbenv/bin:$PATH"
 eval "$(rbenv init -)"
 
 export DATABASE_URL=postgres://<%= @dbuser %>:<%= @dbpasswd %>@localhost:5432/<%= @dbname %>

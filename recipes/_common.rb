@@ -6,34 +6,40 @@
 
 require 'pp'
 
-user 'jellyfish' do
-  comment 'jellyfish'
-  supports :manage_home => true
+user node.default['jellyfishuser']['user'] do
+  comment node.default['jellyfishuser']['user']
+  supports 'manage_home' => true
   system false
   shell '/bin/bash'
-  home '/home/jellyfish'
+  home node.default['jellyfishuser']['home']
   action :create
 end
 
+template "#{node.default['jellyfishuser']['home']}/.bash_profile" do
+  source 'bash_profile.erb'
+  variables(
+    'dbuser' => node.default['postgresql']['jellyfish_user'],
+    'dbpasswd' => node.default['postgresql']['jellyfish_dbpass'],
+    'dbname' => node.default['postgresql']['jellyfish_db'],
+    'rails_env' => node.default['rails_env'],
+    'home' => node.default['jellyfishuser']['home']
+  )
+end
 
 package 'git'
 package ['gcc-c++', 'patch', 'readline', 'readline-devel', 'zlib', 'zlib-devel']
-package ['libyaml-devel', 'libffi-devel', 'openssl-devel', 'make']
-package ['bzip2', 'autoconf', 'automake', 'libtool', 'bison']
+package ['libyaml-devel', 'libffi-devel', 'openssl-devel', 'make', 'bzip2', 'autoconf', 'automake', 'libtool', 'bison']
 
-
-#log "Platform version: " + node['platform_version'].to_f.to_s
 case node['platform']
-when "redhat", "centos"
- if node['platform_version'].to_f < 5.4
-    #>= 5.4 this is provided by glibc
-     package 'iconv-devel'
- end
+when 'redhat', 'centos'
+  if node['platform_version'].to_f < 5.4
+    # >= 5.4 this is provided by glibc
+    package 'iconv-devel'
+  end
 end
 
-package ['sqlite-devel', 'libffi-devel', 'openssl-devel']
-package 'ntp'
+package ['sqlite-devel', 'libffi-devel', 'openssl-devel', 'ntp']
 
-service "ntpd"  do
-  action [ :enable, :start ]
+service 'ntpd'  do
+  action [:enable, :start]
 end

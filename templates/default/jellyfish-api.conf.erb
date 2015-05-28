@@ -4,7 +4,7 @@ upstream myapp_puma {
 
 server {
   listen  80;
-  root /home/jellyfish/api/public;
+  root <%= @home %>/api/public;
 
   location / {
         #all requests are sent to the UNIX socket

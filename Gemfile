@@ -14,8 +14,8 @@ gem 'berkshelf'
 #   gem "vagrant-omnibus", github: "schisamo/vagrant-omnibus"
 # end
 
-gem "test-kitchen"
-gem "kitchen-vagrant"
+gem 'test-kitchen'
+gem 'kitchen-vagrant'
 
 # For easy publishing to Supermarket
 gem 'stove'

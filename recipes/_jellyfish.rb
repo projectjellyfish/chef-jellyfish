@@ -4,10 +4,10 @@
 #
 # Copyright (c) 2015 Booz Allen Hamilton, All Rights Reserved.
 
-git "/home/jellyfish/api" do
-  repository "https://github.com/projectjellyfish/api.git"
-  reference "master"
-  user "jellyfish"
-  group "users"
-  action :checkout
+git "#{node.default['jellyfishuser']['home']}/api" do
+  repository 'https://github.com/projectjellyfish/api.git'
+  reference 'master'
+  user node.default['jellyfishuser']['user']
+  group 'users'
+  action 'checkout'
 end
