@@ -6,7 +6,7 @@
 
 directory "#{node.default['jellyfishuser']['home']}/.rbenv" do
   owner node.default['jellyfishuser']['user']
-  group 'users'
+  group node.default['jellyfishuser']['group']
   mode '0755'
   action :create
 end
@@ -15,13 +15,13 @@ git "#{node.default['jellyfishuser']['home']}/.rbenv" do
   repository 'https://github.com/sstephenson/rbenv.git'
   reference 'master'
   user node.default['jellyfishuser']['user']
-  group 'users'
+  group node.default['jellyfishuser']['group']
   action :checkout
 end
 
 directory "#{node.default['jellyfishuser']['home']}/.rbenv/plugins/ruby-build" do
   owner node.default['jellyfishuser']['user']
-  group 'users'
+  group node.default['jellyfishuser']['group']
   mode '0755'
   action :create
   recursive true
@@ -31,7 +31,7 @@ git "#{node.default['jellyfishuser']['home']}/.rbenv/plugins/ruby-build" do
   repository 'https://github.com/sstephenson/ruby-build.git'
   reference 'master'
   user node.default['jellyfishuser']['user']
-  group 'users'
+  group node.default['jellyfishuser']['group']
   action :checkout
 end
 
