@@ -30,6 +30,15 @@ end
 
 package 'git'
 package ['gcc-c++', 'patch', 'readline', 'readline-devel', 'zlib', 'zlib-devel']
+
+# Turn on 'optional' to get libyaml-devel on RHEL 7
+execute 'add optional repo' do
+  command 'yum-config-manager --enable rhui-REGION-rhel-server-optional'
+  # If optional repo is not available, can also get libyaml-devel this way:
+  # wget ftp://mirror.switch.ch/pool/4/mirror/scientificlinux/7rolling/x86_64/os/Packages/libyaml-devel-0.1.4-10.el7.x86_64.rpm
+  only_if { node['platform'] == 'redhat' && node['platform_version'].to_f > 7.0 }
+end
+
 package ['libyaml-devel', 'libffi-devel', 'openssl-devel', 'make', 'bzip2', 'autoconf', 'automake', 'libtool', 'bison']
 
 case node['platform']
