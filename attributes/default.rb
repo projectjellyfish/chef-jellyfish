@@ -9,9 +9,10 @@ default['postgresql']['version'] = '9.4'
 default['sampledata'] = true
 
 # Our random api secret key
-# @todo this should be randomly generated on run (use OpenSSL cookbook to do this)
-default['rdkey'] = 'd2924512f097d80a1c33cfa416c01cfe93b90912b83ad8dd254205e83915979e3bb08d38cad2e43dcd6db2f4aea53d8c6c41545dc6daaa50dbca9cc7f2612342'
+self.class.send(:include, Opscode::OpenSSL::Password)
+default['rdkey'] = secure_password(128)
 
+pp "Key: #{default['rdkey']}"
 # The Rails Enviroment to use
 default['rails_env'] = 'production'
 
