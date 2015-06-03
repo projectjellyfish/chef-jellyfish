@@ -4,6 +4,7 @@ sudo: false
 rvm:
 - 1.9.3
 script: 
+- bundle install
 - bundle exec rake foodcritic
 - bundle exec rubocop
 notifications:
