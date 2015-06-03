@@ -8,3 +8,5 @@ version '1.1.0'
 
 supports 'centos', '~> 6.0'
 supports 'rhel', '~> 6.0'
+
+depends 'openssl'
