@@ -27,7 +27,7 @@ default['jellyfishuser']['group'] = 'users'
 default['postgresql']['jellyfish_dbpass'] = 'myPassword'
 default['postgresql']['jellyfish_db']     = 'jellyfish_production'
 default['postgresql']['jellyfish_user']   = 'jellyfish'
-
+default['postgresql']['dir']   = '/var/lib/pgsql'
 # @todo: Ability to use an external PostgreSQL server
 
 # -- End Config Vars --

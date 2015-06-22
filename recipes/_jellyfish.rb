@@ -27,15 +27,14 @@ end
 if node.default['sampledata'] == true
   log('check for drop')
   execute 'empty before sample' do
-    code = "psql -d #{node.default['jellyfishuser']['jellyfish_db']} -c \"SELECT  \"staff\".\"email\" FROM \"staff\" WHERE \"staff\".\"email\" = 'unused@projectjellyfish.org'\" | grep -q \"unused@projectjellyfish.org\""
+    code = "psql -d #{node.default['postgresql']['jellyfish_db']} -c \"SELECT  \"staff\".\"email\" FROM \"staff\" WHERE \"staff\".\"email\" = 'unused@projectjellyfish.org'\" | grep -q 'unused@projectjellyfish.org'"
     command "source #{node.default['jellyfishuser']['home']}/.bash_profile; rake db:reset"
-    only_if code, 'user' => 'postgres'
+    only_if code, 'user' => 'postgres', 'cwd' => node.default['postgresql']['dir']
     environment 'HOME' => node.default['jellyfishuser']['home'], 'USER' => node.default['jellyfishuser']['user'], 'RAILS_ENV' => node.default['rails_env'], 'RBENV_SHELL' => 'bash'
     cwd "#{node.default['jellyfishuser']['home']}/api"
     user node.default['jellyfishuser']['user']
   end
 end
-
 
 bash 'rake db:migrate' do
   code "source #{node.default['jellyfishuser']['home']}/.bash_profile; rake db:migrate"
