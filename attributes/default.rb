@@ -5,6 +5,9 @@ default['ruby']['version'] = '2.2.2'
 # Which version of postgres:
 default['postgresql']['version'] = '9.4'
 
+# Which version of pg gem:
+default['pg']['version'] = '0.18.2'
+
 # Load sample data?
 default['sampledata'] = true
 
@@ -24,7 +27,7 @@ default['jellyfishuser']['group'] = 'users'
 default['postgresql']['jellyfish_dbpass'] = 'myPassword'
 default['postgresql']['jellyfish_db']     = 'jellyfish_production'
 default['postgresql']['jellyfish_user']   = 'jellyfish'
-
+default['postgresql']['dir']   = '/var/lib/pgsql'
 # @todo: Ability to use an external PostgreSQL server
 
 # -- End Config Vars --

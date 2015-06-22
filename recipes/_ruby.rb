@@ -49,69 +49,16 @@ bash 'rbenv-global' do
   environment 'HOME' => node.default['jellyfishuser']['home'], 'USER' => node.default['jellyfishuser']['user']
 end
 
+bash 'gem-install-pg' do
+  cwd "#{node.default['jellyfishuser']['home']}/api"
+  code "source #{node.default['jellyfishuser']['home']}/.bash_profile; gem install pg -v '#{node.default['pg']['version']}' -- --with-pg-config=/usr/pgsql-#{node.default['postgresql']['version']}/bin/pg_config"
+  user node.default['jellyfishuser']['user']
+  environment 'HOME' => node.default['jellyfishuser']['home'], 'USER' => node.default['jellyfishuser']['user']
+end
+
 bash 'gem-install-bundler' do
   cwd "#{node.default['jellyfishuser']['home']}/api"
   code "source #{node.default['jellyfishuser']['home']}/.bash_profile; gem install bundler"
   user node.default['jellyfishuser']['user']
   environment 'HOME' => node.default['jellyfishuser']['home'], 'USER' => node.default['jellyfishuser']['user']
-end
-
-bash 'gem-install-pg' do
-  cwd "#{node.default['jellyfishuser']['home']}/api"
-  code "source #{node.default['jellyfishuser']['home']}/.bash_profile; gem install pg -v '0.17.1' -- --with-pg-config=/usr/pgsql-#{node.default['postgresql']['version']}/bin/pg_config"
-  user node.default['jellyfishuser']['user']
-  environment 'HOME' => node.default['jellyfishuser']['home'], 'USER' => node.default['jellyfishuser']['user']
-end
-
-# @todo this should be in the _jellyfish.rb recipe
-bash 'bundle install' do
-  cwd "#{node.default['jellyfishuser']['home']}/api"
-  code "source #{node.default['jellyfishuser']['home']}/.bash_profile; bundle install"
-  user node.default['jellyfishuser']['user']
-  environment 'HOME' => node.default['jellyfishuser']['home'], 'USER' => node.default['jellyfishuser']['user']
-end
-
-# make .env file: need this at execute, does not exist at compile.
-# execute 'copy' do
-#  command "cp #{node.default['jellyfishuser']['home']}/api/.env.example #{node.default['jellyfishuser']['home']}/api/.env"
-#  user node.default['jellyfishuser']['user']
-#  environment 'HOME' => node.default['jellyfishuser']['home'], 'USER' => node.default['jellyfishuser']['user']
-#  not_if { ::File.exist?("#{node.default['jellyfishuser']['home']}/api/.env") }
-# end
-
-# execute 'secretkey' do
-#  command "sed -i.bak 's/^#\sDEVISE_SECRET_KEY\=.*/DEVISE_SECRET_KEY=#{node.default['rdkey']}/' #{node.default['jellyfishuser']['home']}/api/.env"
-#  only_if "grep '# DEVISE_SECRET_KEY=\\|Devise Secret Key\\|' #{node.default['jellyfishuser']['home']}/api/.env"
-# end
-# execute 'dbstring' do
-#  command "sed -i.bak 's/^DATABASE_URL\=.*/DATABASE_URL=postgres:\\/\\/#{node.default['postgresql']['jellyfish_user']}:#{node.default['postgresql']['jellyfish_dbpass']}@localhost:5432\\/#{node.default['postgresql']['jellyfish_db']}/' #{node.default['jellyfishuser']['home']}/api/.env"
-#  only_if "grep 'DATABASE_URL=postgres:\\/\\/#{node.default['postgresql']['jellyfish_user']}:#{node.default['postgresql']['jellyfish_dbpass']}@localhost:5432\\/#{node.default['postgresql']['jellyfish_db']}' #{node.default['jellyfishuser']['home']}/api/.env"
-# end
-
-# DB Migrate
-# @todo all the DB: migration, seed stuff needs to be in _jellyfish.rb
-bash 'rake db:migrate' do
-  code "source #{node.default['jellyfishuser']['home']}/.bash_profile; rake db:migrate"
-  cwd "#{node.default['jellyfishuser']['home']}/api"
-  environment 'HOME' => node.default['jellyfishuser']['home'], 'USER' => node.default['jellyfishuser']['user'], 'RAILS_ENV' => node.default['rails_env'], 'RBENV_SHELL' => 'bash'
-  user node.default['jellyfishuser']['user']
-end
-
-bash 'rake db:seed' do
-  code "source #{node.default['jellyfishuser']['home']}/.bash_profile;  rake db:seed"
-  cwd "#{node.default['jellyfishuser']['home']}/api"
-  user node.default['jellyfishuser']['user']
-  environment 'HOME' => node.default['jellyfishuser']['home'], 'USER' => node.default['jellyfishuser']['user'], 'RAILS_ENV' => node.default['rails_env'], 'RBENV_SHELL' => 'bash'
-end
-
-if node.default['sampledata'] == true
-  log 'Loading Sample Data'
-  bash 'rake sample:demo' do
-    code "source #{node.default['jellyfishuser']['home']}/.bash_profile;  rake sample:demo"
-    user node.default['jellyfishuser']['user']
-    cwd "#{node.default['jellyfishuser']['home']}/api"
-    environment 'HOME' => node.default['jellyfishuser']['home'], 'USER' => 'jellyfish', 'RAILS_ENV' => node.default['rails_env'], 'RBENV_SHELL' => 'bash'
-  end
-else
-  log 'Skipping Sample Data'
 end
