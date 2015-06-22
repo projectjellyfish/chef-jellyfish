@@ -3,7 +3,7 @@ gemfile: test/support/Gemfile
 sudo: false
 rvm:
 - 1.9.3
-script: 
+script:
 - bundle install
 - bundle exec rake foodcritic
 - bundle exec rubocop

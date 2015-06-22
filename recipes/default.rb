@@ -13,8 +13,8 @@ include_recipe 'chef-jellyfish::_postgresql'
 # Git code
 include_recipe 'chef-jellyfish::_jellyfish'
 
-# Rbenv and Ruby-build into /home/jellyfish/.rbenv
-include_recipe 'chef-jellyfish::_ruby'
+# Rbenv and Ruby-build are in _jellyfish now
+# include_recipe 'chef-jellyfish::_ruby'
 
 # Nginx
 include_recipe 'chef-jellyfish::_nginx'

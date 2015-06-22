@@ -5,6 +5,9 @@ default['ruby']['version'] = '2.2.2'
 # Which version of postgres:
 default['postgresql']['version'] = '9.4'
 
+# Which version of pg gem:
+default['pg']['version'] = '0.18.2'
+
 # Load sample data?
 default['sampledata'] = true
 
