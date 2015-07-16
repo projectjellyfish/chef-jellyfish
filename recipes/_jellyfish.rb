@@ -14,6 +14,7 @@ end
 
 # Get Ruby set and Installed
 include_recipe 'chef-jellyfish::_ruby'
+include_recipe 'chef-jellyfish::_nodejs'
 
 #
 bash 'bundle install' do
@@ -21,6 +22,47 @@ bash 'bundle install' do
   code "source #{node.default['jellyfishuser']['home']}/.bash_profile; bundle install"
   user node.default['jellyfishuser']['user']
   environment 'HOME' => node.default['jellyfishuser']['home'], 'USER' => node.default['jellyfishuser']['user']
+end
+
+# add sudo here
+file "/etc/sudoers.d/#{node.default['jellyfishuser']['user']}" do
+  content "#{node.default['jellyfishuser']['user']} ALL=(ALL) NOPASSWD: ALL"
+  mode '0644'
+  owner 'root'
+  group 'root'
+end
+
+bash 'sudo npm install gulp-cli -g' do
+  code 'sudo npm install gulp-cli -g'
+  cwd "#{node.default['jellyfishuser']['home']}/api"
+  user node.default['jellyfishuser']['user']
+  environment 'HOME' => node.default['jellyfishuser']['home'], 'USER' => node.default['jellyfishuser']['user']
+end
+
+bash 'sudo npm install bower -g' do
+  code 'sudo npm install bower -g'
+  cwd "#{node.default['jellyfishuser']['home']}/api"
+  user node.default['jellyfishuser']['user']
+  environment 'HOME' => node.default['jellyfishuser']['home'], 'USER' => node.default['jellyfishuser']['user']
+end
+
+bash 'npm install' do
+  code 'npm install'
+  cwd "#{node.default['jellyfishuser']['home']}/api"
+  user node.default['jellyfishuser']['user']
+  environment 'HOME' => node.default['jellyfishuser']['home'], 'USER' => node.default['jellyfishuser']['user']
+end
+
+bash 'gulp build' do
+  code 'gulp build'
+  cwd "#{node.default['jellyfishuser']['home']}/api"
+  user node.default['jellyfishuser']['user']
+  environment 'HOME' => node.default['jellyfishuser']['home'], 'USER' => node.default['jellyfishuser']['user']
+end
+
+# remove sudo here
+file "/etc/sudoers.d/#{node.default['jellyfishuser']['user']}" do
+  action :delete
 end
 
 # If DB has stuff and load sample is "true", then need to drop that db first
